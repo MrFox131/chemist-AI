@@ -156,7 +156,7 @@ body{
     justify-content: center;
     width: 100vw;
     margin-top: 0;
-    padding: 50px 100px;
+    padding: 15px 100px;
     box-sizing: border-box;
 }
 .card{
@@ -248,6 +248,36 @@ body{
     left: -5px;
     border-radius: 17.5px;
     z-index: 90;
+}
+
+.recommendations{
+    background-image: linear-gradient(to right,#fbdb57,#f1c200);
+    height: 322.5px;
+    margin-left: 15vw;
+    margin-top: 15px;
+    padding: 30px;
+    width: 70vw;
+    box-shadow: 0 3px 6px 0 rgba(74,74,74,.1);
+    border-radius: 6px;
+    position: relative;
+    left: -15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.recommendations > .horizontal_scroll{
+    width: calc((250px + 15px) * 5);
+    height: 100%;
+    padding-right: 30px;
+    display: flex;
+    justify-content: center;
+}
+.recommendations > .horizontal_scroll > .card{
+    width: 250px;
+    margin: 0 15px 0 0;
+    display: inline-block;
+}
+.recommendations > .horizontal_scroll > .card:last-child{
+    margin: 0;
 }
 @media (max-width: 1350px){
 	.content,
