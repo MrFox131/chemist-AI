@@ -3,8 +3,35 @@
 	padding: 0;
 	font-family: "PT Sans",Helvetica,Arial,Tahoma,sans-serif;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    background: #0000;
+    opacity: 0;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 0;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
 h1{
 	margin: 70px 75px 0;
+}
+h1:first-of-type{
+    margin-top: calc(50px + 40px);
 }
 body{
 	width: calc(100vw - 10px);
@@ -249,6 +276,27 @@ body{
     border-radius: 17.5px;
     z-index: 90;
 }
+/* width */
+.recommendations::-webkit-scrollbar {
+    height: 7.5px;
+}
+  
+  /* Track */
+  .recommendations::-webkit-scrollbar-track {
+    background: #0000;
+    opacity: 0;
+}
+  
+/* Handle */
+.recommendations::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+  
+/* Handle on hover */
+.recommendations::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
 
 .recommendations{
     background-image: linear-gradient(to right,#fbdb57,#f1c200);
@@ -257,10 +305,11 @@ body{
     margin-top: 15px;
     padding: 30px;
     width: 70vw;
+    min-width: calc((250px + 15px) * 5);
     box-shadow: 0 3px 6px 0 rgba(74,74,74,.1);
     border-radius: 6px;
     position: relative;
-    left: -15px;
+    left: -30px;
     overflow-x: auto;
     overflow-y: hidden;
 }
