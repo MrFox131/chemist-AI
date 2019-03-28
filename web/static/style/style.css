@@ -186,6 +186,9 @@ body{
     padding: 15px 100px;
     box-sizing: border-box;
 }
+.content--cart{
+    grid-template-columns: calc((((250px + 15px) * 5) - 15px) - 250px) 250px;
+}
 .card{
 	width: 100%;
 	height: 322.5px;
@@ -282,7 +285,7 @@ body{
 }
   
   /* Track */
-  .recommendations::-webkit-scrollbar-track {
+.recommendations::-webkit-scrollbar-track {
     background: #0000;
     opacity: 0;
 }
@@ -327,6 +330,134 @@ body{
 }
 .recommendations > .horizontal_scroll > .card:last-child{
     margin: 0;
+}
+
+.items_in_cart{
+    width: 100%;
+    grid-template-columns: 1fr;
+    display: grid;   
+}
+.receipt{
+    box-shadow: 0 3px 6px 0 rgba(74,74,74,.1);
+    border-radius: 6px;
+    background-color: #fff;
+    padding-bottom: 16px;
+    height: 245px;
+}
+.receipt > .receipt__title{
+    padding: 16px;
+    font-size: 18px;
+}
+.receipt > .receipt__items,
+.receipt > .receipt__price,
+.receipt > .receipt__discount,
+.receipt > .receipt__sum{
+    padding: 0 16px;
+    font-size: 20px;
+    text-align: right;
+}
+.receipt > .receipt__discount{
+    color: #8f8f8f;
+}
+.receipt > .receipt__sum{
+    color: #000;
+    font-size: 24px;
+    font-weight: 600;
+}
+.receipt > .receipt__items::before,
+.receipt > .receipt__price::before,
+.receipt > .receipt__discount::before,
+.receipt > .receipt__sum::before{
+    content: '';
+    text-align: left;
+    float: left;
+    width: 40%;
+    font-size: 14px;
+    margin-top: 6px;
+    clear: left;
+    display: block;
+}
+.receipt > .receipt__items::before{
+    content: 'В корзине';
+}
+.receipt > .receipt__price::before{
+    content: 'Стоимость';
+}
+.receipt > .receipt__discount::before{
+    content: 'Экономия';
+}
+.receipt > .receipt__sum::before{
+    content: 'Сумма заказа';
+    font-size: 16px;
+    width: 100px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+.receipt > .receipt__items::after,
+.receipt > .receipt__price::after,
+.receipt > .receipt__discount::after,
+.receipt > .receipt__sum::after{
+    content: '';
+    text-align: right;
+    float: right;
+    width: 37.5px;
+    font-size: 14px;
+    margin-top: 6px;
+    clear: right;
+    display: block;
+}
+.receipt > .receipt__items::after{
+    content: 'товар';
+}
+.receipt > .receipt__price::after{
+    content: '₽';
+    width: 12.5px;
+    font-size: 20px;
+    margin-top: 0px;
+    font-weight: 600;
+}
+.receipt > .receipt__discount::after{
+    content: '₽';
+    width: 12.5px;
+    font-size: 20px;
+    margin-top: 0px;
+    font-weight: 600;
+}
+.receipt > .receipt__sum::after{
+    content: '₽';
+    width: 16px;
+    font-size: 24px;
+    margin-top: 0px;
+    font-weight: 600;
+}
+.receipt > hr{
+    margin: 15px 0;
+    border: 0.5px #c8c7cc dashed;
+}
+.receipt > .order_btn{
+    box-shadow: 0 4px 4px 0 rgba(74,74,74,.1);
+    text-decoration: none;
+    color: #4a4a4a;
+    background-color: #fc0;
+    border-color: #fc0;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 700;
+    padding: 6px 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 30px;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 15px;
+    display: block;
+}
+.receipt > .order_btn:hover{
+    color: #313030;
+    background-color: #d9ad00;
+    border-color: #cca300;
 }
 @media (max-width: 1350px){
 	.content,
