@@ -1,3 +1,5 @@
+# INSTALL DEPENDENCIES WITH THIS COMMAND
+# pip install -r requirements.txt
 # RUN THIS COMMAND TO RUN SERVER:
 # python server.py and go to http://localhost:5000/
 import flask
