@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 icsv.ipynb
 sales_with_goods.csv
 .ipynb_checkpoints/
-=======
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -126,5 +124,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
->>>>>>> jup_notebook
 .vscode/settings.json
