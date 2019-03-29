@@ -78,7 +78,6 @@ def cart():
         r_categories.append(g.category)
         r_ids.append(g.pk)
     rec_info = zip(r_names, r_prices, r_categories, r_ids)
-    print(r_names)
     names, prices, categories, ids = [[] for i in range(4)]
     goods = db.get_goods_by_ids(cart_ids)
     for g in goods:
@@ -87,7 +86,6 @@ def cart():
         categories.append(g.category)
         ids.append(g.pk)
     info = zip(names, prices, categories, ids)
-    print(names)
     return flask.render_template(
         'cart.html', info=info, rec_info=rec_info
     )
