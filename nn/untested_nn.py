@@ -13,7 +13,8 @@ def get_sentences():
 sentences = get_sentences()
 longest = len(sentences)
 model = gensim.models.Word2Vec(
-    sentences, size=10000, window=longest, min_count=1, workers=6)
+    sentences, size=100, window=longest, min_count=1, workers=10)
+model.train(sentences, total_examples=len(sentences), epochs=100)
 vocab = list(model.wv.vocab.keys())
 pca = PCA(n_components=2)
 pca.fit(model.wv.syn0)
