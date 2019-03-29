@@ -1,6 +1,6 @@
 # here will be database settings
 
-goods_on_one_page = 3
+goods_on_one_page = 20
 
 
 class Good(object):
@@ -15,7 +15,8 @@ class Good(object):
 def get_page_goods(n_page):
     # we must get [n_page * 20 : (n_page + 1) * 20]
     goods = []
-    for i in range(1, goods_on_one_page + 1):
+    n_page -= 1
+    for i in range(n_page * goods_on_one_page, (n_page + 1) * goods_on_one_page):
         g = Good(i)
         goods.append(g)
     return goods

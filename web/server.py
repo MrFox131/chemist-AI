@@ -13,7 +13,7 @@ app.config['JSON_AS_ASCII'] = False
 @app.route('/get_goods/<int:n_page>')
 def get_goods(n_page):
     names, prices, categories, ids = [[] for i in range(4)]
-    goods = db.get_page_goods(1)
+    goods = db.get_page_goods(n_page)
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
