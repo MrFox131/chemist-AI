@@ -11,14 +11,6 @@ else{
 }
 
 window.onload = function(event) {
-    $.ajax({
-      url: '/get_goods/2',
-      success: function(data){
-        console.log(data);
-      }
-    });
-
-
 	getDiscount();
 	onResizeWindow();
 	if(items_in_cart.length > 0){
@@ -134,10 +126,7 @@ function removeFromCart(id){
 	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1});
 }
 function deleteFromCart(id){
-	items_in_cart = JS
-	2 ответа
-	25 окт. 2013 г. - will print what is actually stored in $.cookie('Cookie_Name'); ... data, you should use a python library for encoding JSON, such as simplejson :
-	ON.parse($.cookie('cart'));
+	items_in_cart = JSON.parse($.cookie('cart'));
 
 	for(let i = 0; i < items_in_cart.length; i++){
 		if(items_in_cart[i][0] == id){
