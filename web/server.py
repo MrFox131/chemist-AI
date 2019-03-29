@@ -1,10 +1,10 @@
 # INSTALL DEPENDENCIES WITH THIS COMMAND
 # pip install -r requirements.txt
 # RUN THIS COMMAND TO RUN SERVER:
-# python server.py and go to http://localhost:5000/
+# python main.py and go to http://localhost:5000/
 import flask
-import db
-import rec
+from . import db
+from . import rec
 import urllib
 import json
 
@@ -89,7 +89,3 @@ def cart():
     return flask.render_template(
         'cart.html', info=info, rec_info=rec_info
     )
-
-
-if __name__ == '__main__':
-    app.run(debug=True)

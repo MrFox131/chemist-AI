@@ -1641,8 +1641,10 @@ if TRAINING:
     model.train(vocab, total_examples=len(vocab), epochs=50)
     model.save("product2vec.model")
 else:
-    model = gensim.models.Word2Vec.load("product2vec.model")
+    model = gensim.models.Word2Vec.load("nn/product2vec.model")
 
 
 def predict(item_names):
+    '''return recommendations for user with 
+    iten_names in cart'''
     return model.wv.most_similar(item_names)
