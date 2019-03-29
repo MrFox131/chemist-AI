@@ -28,3 +28,10 @@ def get_goods_by_ids(ids_list: list) -> list:
         g = Good(i)
         goods.append(g)
     return goods
+
+
+def get_n_most_popular(n):
+    goods = []
+    for i in range(n):
+        goods.append(Good(i))
+    return goods
