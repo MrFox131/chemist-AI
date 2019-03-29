@@ -5,6 +5,8 @@
 import flask
 import db
 import rec
+import urllib
+import json
 
 app = flask.Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -60,12 +62,16 @@ def index():
 
 @app.route('/cart')
 def cart():
-    ids = [
-        int(i) for i in flask.request.cookies.get(
-            'cart',
-            '').split(';') if i]
+    cart_ids, ns = [], []
+    cookie = flask.request.cookies.get('cart', '')
+    if cookie:
+        cookie = urllib.parse.unquote(cookie)
+        cookie = json.loads(cookie)
+    for (pk, n) in cookie:
+        cart_ids.append(int(pk))
+        ns.append(n)
     names, prices, categories, ids = [[] for i in range(4)]
-    recommendations = rec.get_recs_by_goods_ids(ids)
+    recommendations = rec.get_recs_from_db(cart_ids, ns)
     for g in recommendations:
         names.append(g.name)
         prices.append(g.price)
