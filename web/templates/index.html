@@ -1,11 +1,14 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Монастырёв</title>
+		<link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
 		<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
 		<link rel="stylesheet" href="static/style/style.css">
 		<!-- <script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script> -->
 		<script src="static/scripts/jquery-3.3.1.min.js"></script>
+		<script src="static/scripts/jquery.cookie.js"></script>
 	</head>
 	<body>
 		<div class="top_info">
@@ -30,11 +33,10 @@
 		<div class="content">
 			{% for name, price, category, id in info %}
 			<div class="card">
-				<!-- <div class="product_info"><div class="description">Текст</div></div> -->
 				<div class="product_image" style="background-image: url('static/images/products/{{ id }}.JPG');"></div>
 				<div class="product_name">{{ name }}</div>
 				<div class="product_price">{{ price }}</div>
-				<div class="add_to_cart"></div>
+				<div class="add_to_cart" itemID="{{ id }}"></div>
 			</div>
 			{% endfor %}
 		</div>

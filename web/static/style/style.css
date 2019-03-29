@@ -51,15 +51,13 @@ body{
     left: 0;
 }
 .icon,
-.add_to_cart,
-.product_info{
+.add_to_cart{
 	width: 1em;
     height: 1em;
 	font-size: 24px;
 }
 .icon:before,
-.add_to_cart:before,
-.product_info:before{
+.add_to_cart:before{
 	content: "";
     width: 100%;
     height: 100%;
@@ -83,10 +81,11 @@ body{
 .icon--geo-grey,
 .icon--phone,
 .icon--phone-grey{
-	font-size: 16px;
+    font-size: 16px;
     width: 100%;
     height: 50%;
-    padding: 20px 0;
+    padding: 20px 0 0 0;
+    margin-bottom: 10px;
     box-sizing: border-box;
 }
 .icon--geo > p,
@@ -104,6 +103,9 @@ body{
 .geo,
 .phone{
 	box-sizing: border-box;
+}
+.geo > h4{
+    margin-top: -1px;
 }
 .geo > h4,
 .phone > h4{
@@ -163,7 +165,7 @@ body{
 }
 .cart_button{
 	height: 50px;
-    line-height: 60px;
+    line-height: 52.5px;
     color: #8f8f8f;
 }
 .cart_button > *{
@@ -207,7 +209,7 @@ body{
 	background-repeat: no-repeat;
 	width: 100%;
 	height: 215px;
-	margin-bottom: 15px;	
+	margin-bottom: 15px;
 }
 .card > .product_name{
 	font-size: 1.3em;
@@ -246,38 +248,6 @@ body{
 .card > .add_to_cart.selected:before,
 .card.in_cart > .add_to_cart:before{
 	background-position: -81em -81em;
-}
-.card > .product_info{
-	top: 15px;
-	right: 15px;
-	cursor: pointer;
-	opacity: 0.5;
-	position: absolute;
-}
-.card > .product_info:before{
-    background-position: -45em -45em;
-    position: absolute;
-    z-index: 95;
-    background-color: #fff;
-    border-radius: 100%;
-    border: 1px solid #fff;
-}
-.card > .product_info > .description{
-	display: none;
-}
-.card > .product_info:hover{
-	opacity: 1;
-}
-.card > .product_info:hover > .description{
-    width: 450px;
-    height: 300px;
-    background: #4a4a4a;
-    display: block;
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    border-radius: 17.5px;
-    z-index: 90;
 }
 /* width */
 .recommendations::-webkit-scrollbar {

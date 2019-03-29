@@ -62,7 +62,7 @@ def index():
 def cart():
     ids = [
         int(i) for i in flask.request.cookies.get(
-            'goods_ids',
+            'cart',
             '').split(';') if i]
     names, prices, categories, ids = [[] for i in range(4)]
     recommendations = rec.get_recs_by_goods_ids(ids)
