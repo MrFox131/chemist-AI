@@ -32,6 +32,24 @@
 		<h1 class="jsFromLeft">Мы рекомендуем вам</h1>
 		<div class="recommendations jsCenterForRecomend">
 			<div class="horizontal_scroll">
+				<div class="card">
+					<div class="product_image" style="background-image: url('static/images/products/1.JPG');"></div>
+					<div class="product_name">Лизобакт</div>
+					<div class="product_price">230</div>
+					<div class="add_to_cart" itemID="1"></div>
+				</div>
+				<div class="card">
+					<div class="product_image" style="background-image: url('static/images/products/2.JPG');"></div>
+					<div class="product_name">Кардиомагнил</div>
+					<div class="product_price">450</div>
+					<div class="add_to_cart" itemID="2"></div>
+				</div>
+				<div class="card">
+					<div class="product_image" style="background-image: url('static/images/products/3.JPG');"></div>
+					<div class="product_name">Фолиевая кислота</div>
+					<div class="product_price">386</div>
+					<div class="add_to_cart" itemID="3"></div>
+				</div>
 				{% for name, price, category, id in rec_info %}
 				<div class="card">
 					<div class="product_image" style="background-image: url('static/images/products/{{ id }}.JPG');"></div>
@@ -45,18 +63,41 @@
 		<h1 class="jsFromLeft">Корзина</h1>
 		<div class="content--cart">
 			<div class="items_in_cart">
-				<div class="card">
-				<div class="product_image" style="background-image: url('./images/products/1.JPG');"></div>
+			<div class="card">
+				<div class="product_image" style="background-image: url('/static/images/products/1.JPG');"></div>
 				<div class="product_name">Лизобакт</div>
-				<div class="product_price">241.00</div>
-				<div class="add_to_cart"></div>
+				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
+				<div class="product_price">241</div>
+				<div class="product_count" itemID="1"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
+			</div>
+            <div class="card">
+				<div class="product_image" style="background-image: url('/static/images/products/1.JPG');"></div>
+				<div class="product_name">Лизобакт</div>
+				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
+				<div class="product_price">241</div>
+				<div class="product_count" itemID="2"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
+			</div>
+			<div class="card">
+				<div class="product_image" style="background-image: url('/static/images/products/1.JPG');"></div>
+				<div class="product_name">Лизобакт</div>
+				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
+				<div class="product_price">241</div>
+				<div class="product_count" itemID="3"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
+			</div>
+			<div class="card">
+				<div class="product_image" style="background-image: url('/static/images/products/1.JPG');"></div>
+				<div class="product_name">Лизобакт</div>
+				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
+				<div class="product_price">241</div>
+				<div class="product_count" itemID="4"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
 			</div>
 			{% for name, price, category, id in info %}
 			<div class="card">
-				<div class="product_image" style="background-image: url('static/images/products/{{ id }}.JPG');"></div>
+				<div class="product_image" style="background-image: url('/static/images/products/{{ id }}.JPG');"></div>
 				<div class="product_name">{{ name }}</div>
+				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
 				<div class="product_price">{{ price }}</div>
-				<div class="add_to_cart"></div>
+				<div class="product_count" itemID="{{ id }}"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
 			</div>
 			{% endfor %}
 			</div>
