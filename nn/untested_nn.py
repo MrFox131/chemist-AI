@@ -1,5 +1,7 @@
 # -*- coding: utf8 -*-
 import gensim
+TRAINING = False
+
 
 def get_sentences():
     sentences = [
@@ -1626,19 +1628,21 @@ def get_sentences():
          'Бессмертника песчаного цветки сумма флавоноидов'], ['Фабомотизол', 'Каптоприл', 'Телмисартан']]
     return sentences
 
+
 sentences = get_sentences()
 longest = len(sentences)
-model = model = gensim.models.Word2Vec(sentences, size=50, window=100, min_count=1, workers=4, iter=20)
-model.train(sentences, total_examples=len(sentences), epochs=100)
-vocab = list(model.wv.vocab.keys())
-model.train(vocab, total_examples=len(vocab), epochs=100)
-model.train(sentences, total_examples=len(sentences), epochs=100)
-vocab = list(model.wv.vocab.keys())
-model.train(vocab, total_examples=len(vocab), epochs=50)
+
+if TRAINING:
+    model = gensim.models.Word2Vec(sentences, size=50, window=100, min_count=1, workers=4, iter=20)
+    model.train(sentences, total_examples=len(sentences), epochs=100)
+    vocab = list(model.wv.vocab.keys())
+    model.train(vocab, total_examples=len(vocab), epochs=100)
+    model.train(sentences, total_examples=len(sentences), epochs=100)
+    model.train(vocab, total_examples=len(vocab), epochs=50)
+    model.save("product2vec.model")
+else:
+    model = gensim.models.Word2Vec.load("product2vec.model")
+
+
 def predict(item_names):
     return model.wv.most_similar(item_names)
-
-
-if __name__ == '__main__':
-    pass
-model.save("product2vec.model")
