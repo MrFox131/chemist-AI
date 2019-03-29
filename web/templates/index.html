@@ -41,5 +41,30 @@
 			{% endfor %}
 		</div>
 		<script src="static/scripts/script.js"></script>
+		<script>
+		let page = 1;
+		$(window).on("scroll", function() {
+			if(($(document).outerHeight() - ($(window).height() + $(window).scrollTop())) < 350){
+				page++;
+				$.ajax({
+					url: '/get_goods/' + page,
+					success: function(data){
+					console.log(data);
+						for(let i = 0; i < data.length; i++){
+							$(".content").html($(".content").html() + `
+							<div class="card">
+								<div class="product_image" style="background-image: url('static/images/products/` + data[i][3] + `.JPG');"></div>
+								<div class="product_name">` + data[i][0] + `</div>
+								<div class="product_price">` + data[i][1] + `</div>
+								<div class="add_to_cart" itemID="` + data[i][3] + `"></div>
+							</div>
+							`);
+						}
+					}
+				});
+			}
+			//console.log(($(document).outerHeight() - ($(window).height() + $(window).scrollTop())));
+		});
+		</script>
 	</body>
 </html>
