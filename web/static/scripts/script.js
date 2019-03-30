@@ -1,5 +1,16 @@
 var items_in_cart = [];
 
+var snapper = new Snap({
+	element: document.getElementsByClassName('menu')[0],
+	dragger: document.getElementById('menu_dragger'),
+	maxPosition: 300,
+	minPosition: 0,
+	resistance: 0.5
+});
+snapper.on('close', function(){
+  $(".menu").addClass("darkBG");
+});
+
 if(typeof $.cookie('cart') !== "undefined"){
     items_in_cart = JSON.parse($.cookie('cart'));
     for(let i = 0; i < items_in_cart.length; i++){
@@ -21,10 +32,12 @@ window.onload = function(event) {
 };
 
 window.onscroll = function() {
-  var scrolled = window.pageYOffset || document.documentElement.scrollTop;
-  var margin = 75 - scrolled;
-  if(margin < 0) margin = 0;
-  $(".menu").attr("style", "top: " + margin + "px");
+	var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+	if($(window).width() >= 800){
+		var margin = 75 - scrolled;
+  	if(margin < 0) margin = 0;
+  	$(".menu").attr("style", "top: " + margin + "px");
+	}
 }
 
 window.onresize = function(event) {
@@ -86,6 +99,17 @@ $(".add_to_cart").on("click", function(){
 	}
 	else{
 		$(".cart_button__text").html("Корзина пуста");
+	}
+})
+
+$(".icon-menu").on("click", function(){
+	if($(this).hasClass("open")){
+		$(this).removeClass("open");
+		snapper.close();
+	}
+	else{
+		$(this).addClass("open");
+		snapper.open();
 	}
 })
 
