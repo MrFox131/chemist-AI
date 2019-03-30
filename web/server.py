@@ -30,19 +30,23 @@ def get_goods(n_page):
 def get_recs():
     '''return json response with goods we recommend'''
     names, prices, categories, ids = [[] for i in range(4)]
-    if flask.request.is_xhr:
-        ids = flask.request.json['ids']
-    else:
-        return flask.abort(404)
-    goods = rec.get_recs_by_goods_ids(ids)
-    for g in goods:
-        names.append(g.name)
-        prices.append(g.price)
-        ids.append(g.pk)
-        categories.append('')
-    return flask.jsonify(
-        info=list(zip(names, prices, categories, ids)),
-    )
+    cart_ids, ns = [], []
+    cookie = flask.request.cookies.get('cart', '')
+    if cookie:
+        cookie = urllib.parse.unquote(cookie)
+        cookie = json.loads(cookie)
+    for (pk, n) in cookie:
+        cart_ids.append(pk)
+        ns.append(n)
+    r_names, r_prices, r_categories, r_ids = [[] for i in range(4)]
+    recommendations = rec.get_recs_from_db(cart_ids, ns)
+    for g in recommendations:
+        r_names.append(g.name)
+        r_prices.append(g.price)
+        r_ids.append(g.pk)
+        r_categories.append('')
+    rec_info = zip(r_names, r_prices, r_categories, r_ids)
+    return flask.jsonify(list(rec_info))
 
 
 @app.route('/')
@@ -55,7 +59,6 @@ def index():
         ids.append(g.pk)
         categories.append('')
     info = zip(names, prices, categories, ids)
-    print(categories)
     return flask.render_template(
         'index.html', info=info
     )
