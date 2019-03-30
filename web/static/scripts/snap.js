@@ -236,6 +236,12 @@
                     if( utils.canTransform() ){
                         var theTranslate = 'translate3d(' + n + 'px, 0,0)';
                         settings.element.style[cache.vendor+'Transform'] = theTranslate;
+                        if(n == 300){
+                            $(".icon-menu").addClass("open");
+                        }
+                        if(n == 0){
+                            $(".icon-menu").removeClass("open");
+                        }
                     } else {
                         settings.element.style.width = (win.innerWidth || doc.documentElement.clientWidth)+'px';
 
