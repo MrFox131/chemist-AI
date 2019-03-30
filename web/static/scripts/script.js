@@ -11,7 +11,6 @@ else{
 }
 
 window.onload = function(event) {
-	getDiscount();
 	onResizeWindow();
 	if(items_in_cart.length > 0){
 		$(".cart_button__text").html("В корзине: " + items_in_cart.length);
@@ -88,12 +87,7 @@ $(".add_to_cart").on("click", function(){
 	else{
 		$(".cart_button__text").html("Корзина пуста");
 	}
-	getDiscount();
 })
-
-function getDiscount(){
-	$(".receipt__discount").html(Math.round((parseInt($(".receipt__price").html())/100.0)*7.0));
-}
 
 function addToCart(id){
 	let ifExist = false;
@@ -135,4 +129,14 @@ function deleteFromCart(id){
 	}
 
 	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1});
+}
+
+function getAmountInCart(id){
+	items_in_cart = JSON.parse($.cookie('cart'));
+
+	for(let i = 0; i < items_in_cart.length; i++){
+		if(items_in_cart[i][0] == id){
+			return items_in_cart[i][1];
+		}
+	}
 }
