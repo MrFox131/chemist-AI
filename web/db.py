@@ -10,7 +10,6 @@ n_of_goods = cursor.fetchone()[0]
 
 
 class Good(object):
-    name = 'Лизобакт'
 
     def __init__(self, query):
         self.pk = query[0]
@@ -24,7 +23,6 @@ def get_page_goods(n_page):
     cursor = conn.cursor()
     n_page -= 1
     offset = (n_page + 1) * goods_on_one_page
-    print(offset, goods_on_one_page)
     cursor.execute(
         "SELECT * FROM data LIMIT {} OFFSET {};".format(goods_on_one_page, offset))
     goods = []
@@ -51,7 +49,6 @@ def get_n_most_popular(n):
     cursor = conn.cursor()
     goods = []
     sql = "SELECT * FROM data ORDER BY RANDOM() LIMIT {};".format(n)
-    print(sql)
     cursor.execute(sql)
     queryies = cursor.fetchall()
     for query in queryies:
