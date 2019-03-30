@@ -10,8 +10,7 @@ n_of_goods = cursor.fetchone()[0]
 
 
 class Good(object):
-    name = 'Лизобакт'
-
+    
     def __init__(self, query):
         self.pk = query[0]
         self.mnn = query[11]
