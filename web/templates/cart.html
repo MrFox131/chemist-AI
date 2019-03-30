@@ -129,7 +129,7 @@
 				for(let i = 1; i <= $(".items_in_cart > .card").length; i++){
 					sum += (parseInt($(".items_in_cart > .card:nth-child(" + i + ")").children(".product_price").html()) * parseInt($(".items_in_cart > .card:nth-child(" + i + ")").children(".product_count").children(".product_amount").html()));
 				}
-				$(".receipt__items").html(items_in_cart.length);
+				$(".receipt__items").html(items_in_cart.length + '<div class="after"> ' + getNumEnding(items_in_cart.length, ["товар", "товара", "товаров"]) + "</div>");
 				$(".receipt__price").html(sum);
 				$(".receipt__discount").html(Math.round(sum/100.0)*discont);
 				$(".receipt__sum").html(sum - Math.round(sum/100.0)*discont);

@@ -442,7 +442,16 @@ body{
     font-weight: 600;
     margin-top: 8px;
 }
-.receipt > .receipt__items::after,
+.receipt > .receipt__items > .after{
+    text-align: right;
+    float: right;
+    width: auto;
+    font-size: 14px;
+    margin-top: 6px;
+    margin-left: 2.5px;
+    clear: right;
+    display: block;
+}
 .receipt > .receipt__price::after,
 .receipt > .receipt__discount::after,
 .receipt > .receipt__sum::after{
@@ -454,9 +463,6 @@ body{
     margin-top: 6px;
     clear: right;
     display: block;
-}
-.receipt > .receipt__items::after{
-    content: 'товар';
 }
 .receipt > .receipt__price::after{
     content: '₽';
