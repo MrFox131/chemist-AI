@@ -1,10 +1,10 @@
 # INSTALL DEPENDENCIES WITH THIS COMMAND
 # pip install -r requirements.txt
 # RUN THIS COMMAND TO RUN SERVER:
-# python server.py and go to http://localhost:5000/
+# python main.py and go to http://localhost:5000/
 import flask
-import db
-import rec
+from . import db
+from . import rec
 import urllib
 import json
 
@@ -19,8 +19,8 @@ def get_goods(n_page):
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
-        categories.append(g.category)
         ids.append(g.pk)
+        categories.append('')
     return flask.jsonify(
         list(zip(names, prices, categories, ids)),
     )
@@ -38,8 +38,8 @@ def get_recs():
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
-        categories.append(g.category)
         ids.append(g.pk)
+        categories.append('')
     return flask.jsonify(
         info=list(zip(names, prices, categories, ids)),
     )
@@ -52,9 +52,10 @@ def index():
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
-        categories.append(g.category)
         ids.append(g.pk)
+        categories.append('')
     info = zip(names, prices, categories, ids)
+    print(categories)
     return flask.render_template(
         'index.html', info=info
     )
@@ -75,21 +76,16 @@ def cart():
     for g in recommendations:
         r_names.append(g.name)
         r_prices.append(g.price)
-        r_categories.append(g.category)
         r_ids.append(g.pk)
+        r_categories.append('')
     rec_info = zip(r_names, r_prices, r_categories, r_ids)
     names, prices, categories, ids = [[] for i in range(4)]
     goods = db.get_goods_by_ids(cart_ids)
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
-        categories.append(g.category)
         ids.append(g.pk)
     info = zip(names, prices, categories, ids)
     return flask.render_template(
         'cart.html', info=info, rec_info=rec_info
     )
-
-
-if __name__ == '__main__':
-    app.run(debug=True)

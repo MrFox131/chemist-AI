@@ -1,10 +1,8 @@
-icsv.ipynb
-sales_with_goods.csv
-.ipynb_checkpoints/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+prd.db
 
 # C extensions
 *.so
