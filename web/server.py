@@ -7,6 +7,7 @@ from . import db
 from . import rec
 import urllib
 import json
+import os
 
 app = flask.Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -93,3 +94,14 @@ def cart():
     return flask.render_template(
         'cart.html', info=info, rec_info=rec_info
     )
+
+
+@app.route('/static/images/products/<string:name>')
+def get_image(name):
+    fullpath = 'web/static/images/products/' + name
+    filepath = 'static/images/products/' + name
+    if os.path.isfile(fullpath):
+        return flask.send_file(filepath)
+    else:
+        default = 'static/images/products/default.png'
+        return flask.send_file(default)
