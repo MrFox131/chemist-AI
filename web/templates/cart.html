@@ -9,8 +9,10 @@
 		<!-- <script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script> -->
 		<script src="static/scripts/jquery-3.3.1.min.js"></script>
 		<script src="static/scripts/jquery.cookie.js"></script>
+		<script src="static/scripts/snap.js"></script>
 	</head>
 	<body>
+		<div class="icon icon-menu"></div>
 		<div class="top_info">
 			<div class="logo"></div>
 			<div class="geo" style="padding: 0 40px;">
@@ -28,28 +30,11 @@
 			<a class="menu__item" href="#">Наши аптеки</a>
 			<a class="menu__item" href="#">Скидки</a>
 			<a class="menu__item menu__item--cart jsFromRight" href="/cart"><div class="cart_button"><div class="icon icon--cart"></div><p class="cart_button__text">Корзина пуста</p></div></a>
+			<div id="menu_dragger"></div>
 		</div>
 		<h1 class="jsFromLeft">Мы рекомендуем вам</h1>
 		<div class="recommendations jsCenterForRecomend">
 			<div class="horizontal_scroll">
-				<div class="card">
-					<div class="product_image" style="background-image: url('static/images/products/1.JPG');"></div>
-					<div class="product_name">Лизобакт</div>
-					<div class="product_price">230</div>
-					<div class="add_to_cart" itemID="1"></div>
-				</div>
-				<div class="card">
-					<div class="product_image" style="background-image: url('static/images/products/2.JPG');"></div>
-					<div class="product_name">Кардиомагнил</div>
-					<div class="product_price">450</div>
-					<div class="add_to_cart" itemID="2"></div>
-				</div>
-				<div class="card">
-					<div class="product_image" style="background-image: url('static/images/products/3.JPG');"></div>
-					<div class="product_name">Фолиевая кислота</div>
-					<div class="product_price">386</div>
-					<div class="add_to_cart" itemID="3"></div>
-				</div>
 				{% for name, price, category, id in rec_info %}
 				<div class="card">
 					<div class="product_image" style="background-image: url('static/images/products/{{ id }}.JPG');"></div>
@@ -61,36 +46,8 @@
 			</div>
 		</div>
 		<h1 class="jsFromLeft">Корзина</h1>
-		<div class="content--cart">
+		<div class="content--cart" id="drager">
 			<div class="items_in_cart">
-			<div class="card">
-				<div class="product_image" style="background-image: url('/static/images/products/1.JPG');"></div>
-				<div class="product_name">Лизобакт</div>
-				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
-				<div class="product_price">241</div>
-				<div class="product_count" itemID="1"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
-			</div>
-            <div class="card">
-				<div class="product_image" style="background-image: url('/static/images/products/1.JPG');"></div>
-				<div class="product_name">Лизобакт</div>
-				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
-				<div class="product_price">241</div>
-				<div class="product_count" itemID="2"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
-			</div>
-			<div class="card">
-				<div class="product_image" style="background-image: url('/static/images/products/1.JPG');"></div>
-				<div class="product_name">Лизобакт</div>
-				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
-				<div class="product_price">241</div>
-				<div class="product_count" itemID="3"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
-			</div>
-			<div class="card">
-				<div class="product_image" style="background-image: url('/static/images/products/1.JPG');"></div>
-				<div class="product_name">Лизобакт</div>
-				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
-				<div class="product_price">241</div>
-				<div class="product_count" itemID="4"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
-			</div>
 			{% for name, price, category, id in info %}
 			<div class="card">
 				<div class="product_image" style="background-image: url('/static/images/products/{{ id }}.JPG');"></div>
@@ -112,5 +69,74 @@
 			</div>
 		</div>
 		<script src="static/scripts/script.js"></script>
+		<script>
+			$(window).on("load", function() {
+				reloadReceipt();
+			});
+
+			$(".recommendations > .horizontal_scroll > .card > .add_to_cart").on("click", function(){
+				let prod_image = $(this).parent().children(".product_image").attr("style");
+				let prod_name = $(this).parent().children(".product_name").html();
+				let prod_description = $(this).parent().children(".product_description").html();
+				let prod_price = $(this).parent().children(".product_price").html();
+				let prod_id = $(this).parent().children(".add_to_cart").attr("itemID");
+				if(!$(this).hasClass("selected")){
+					$(".items_in_cart > .card > .product_count[itemID='" + prod_id + "']").parent().remove();
+				}
+				else{
+					$(".items_in_cart").html($(".items_in_cart").html() + `
+					<div class="card">
+						<div class="product_image" style="` + prod_image + `"></div>
+						<div class="product_name">` + prod_name + `</div>
+						<div class="product_description">` + prod_description + `</div>
+						<div class="product_price">` + prod_price + `</div>
+						<div class="product_count" itemID="` + prod_id + `"><div class="remove_btn">-</div><div class="product_amount">1</div><div class="add_btn">+</div></div>
+					</div>
+					`);
+				}
+				reloadReceipt();
+			});
+
+			$(".items_in_cart").on("click", ".card > .product_count > .remove_btn", function(){
+				let prod_id = parseInt($(this).parent().attr("itemID"));
+				let prod_amount = parseInt($(this).parent().children(".product_amount").html());
+				if(prod_amount > 0){
+					prod_amount = getAmountInCart(prod_id);
+				}
+
+				if(prod_amount > 0){
+					$(this).parent().children(".product_amount").html(--prod_amount);
+					removeFromCart($(this).parent().attr("itemID"));	
+				}
+				reloadReceipt();
+			});
+
+			$(".items_in_cart").on("click", ".card > .product_count > .add_btn", function(){
+				let prod_id = parseInt($(this).parent().attr("itemID"));
+				let prod_amount = parseInt($(this).parent().children(".product_amount").html());
+				if(prod_amount > 0){
+					prod_amount = getAmountInCart(prod_id);
+				}
+
+				if(prod_amount < 100){
+					$(this).parent().children(".product_amount").html(++prod_amount);
+					addToCart($(this).parent().attr("itemID"));	
+				}
+				reloadReceipt();
+			});
+
+			function reloadReceipt(){
+				let sum = 0;
+				let discont = 7; //In percents
+				
+				for(let i = 1; i <= $(".items_in_cart > .card").length; i++){
+					sum += (parseInt($(".items_in_cart > .card:nth-child(" + i + ")").children(".product_price").html()) * parseInt($(".items_in_cart > .card:nth-child(" + i + ")").children(".product_count").children(".product_amount").html()));
+				}
+				$(".receipt__items").html(items_in_cart.length + '<div class="after"> ' + getNumEnding(items_in_cart.length, ["товар", "товара", "товаров"]) + "</div>");
+				$(".receipt__price").html(sum);
+				$(".receipt__discount").html(Math.round(sum/100.0)*discont);
+				$(".receipt__sum").html(sum - Math.round(sum/100.0)*discont);
+			}
+		</script>
 	</body>
 </html>

@@ -1,5 +1,16 @@
 var items_in_cart = [];
 
+var snapper = new Snap({
+	element: document.getElementsByClassName('menu')[0],
+	dragger: document.getElementById('menu_dragger'),
+	maxPosition: 300,
+	minPosition: 0,
+	resistance: 0.5
+});
+snapper.on('close', function(){
+  $(".menu").addClass("darkBG");
+});
+
 if(typeof $.cookie('cart') !== "undefined"){
     items_in_cart = JSON.parse($.cookie('cart'));
     for(let i = 0; i < items_in_cart.length; i++){
@@ -11,7 +22,6 @@ else{
 }
 
 window.onload = function(event) {
-	getDiscount();
 	onResizeWindow();
 	if(items_in_cart.length > 0){
 		$(".cart_button__text").html("В корзине: " + items_in_cart.length);
@@ -22,10 +32,12 @@ window.onload = function(event) {
 };
 
 window.onscroll = function() {
-  var scrolled = window.pageYOffset || document.documentElement.scrollTop;
-  var margin = 75 - scrolled;
-  if(margin < 0) margin = 0;
-  $(".menu").attr("style", "top: " + margin + "px");
+	var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+	if($(window).width() >= 800){
+		var margin = 75 - scrolled;
+  	if(margin < 0) margin = 0;
+  	$(".menu").attr("style", "top: " + margin + "px");
+	}
 }
 
 window.onresize = function(event) {
@@ -88,12 +100,18 @@ $(".add_to_cart").on("click", function(){
 	else{
 		$(".cart_button__text").html("Корзина пуста");
 	}
-	getDiscount();
 })
 
-function getDiscount(){
-	$(".receipt__discount").html(Math.round((parseInt($(".receipt__price").html())/100.0)*7.0));
-}
+$(".icon-menu").on("click", function(){
+	if($(this).hasClass("open")){
+		$(this).removeClass("open");
+		snapper.close();
+	}
+	else{
+		$(this).addClass("open");
+		snapper.open();
+	}
+})
 
 function addToCart(id){
 	let ifExist = false;
@@ -135,4 +153,33 @@ function deleteFromCart(id){
 	}
 
 	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1});
+}
+
+function getAmountInCart(id){
+	items_in_cart = JSON.parse($.cookie('cart'));
+
+	for(let i = 0; i < items_in_cart.length; i++){
+		if(items_in_cart[i][0] == id){
+			return items_in_cart[i][1];
+		}
+	}
+}
+function getNumEnding($number, $endingArray)
+{
+    $number = $number % 100;
+    if ($number>=11 && $number<=19) {
+        $ending=$endingArray[2];
+    }
+    else {
+        $i = $number % 10;
+        switch ($i)
+        {
+            case (1): $ending = $endingArray[0]; break;
+            case (2):
+            case (3):
+            case (4): $ending = $endingArray[1]; break;
+            default: $ending=$endingArray[2];
+        }
+    }
+    return $ending;
 }

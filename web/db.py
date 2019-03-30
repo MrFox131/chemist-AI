@@ -36,7 +36,7 @@ def get_goods_by_ids(ids_list: list) -> list:
     cursor = conn.cursor()
     goods = []
     for i in ids_list:
-        sql = "SELECT * FROM data WHERE id={};".format(i)
+        sql = "SELECT * FROM data WHERE id='{}';".format(i)
         cursor.execute(sql)
         query = cursor.fetchone()
         g = Good(query)
