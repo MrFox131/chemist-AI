@@ -23,7 +23,9 @@ def get_page_goods(n_page):
     n_page -= 1
     offset = (n_page + 1) * goods_on_one_page
     cursor.execute(
-        "SELECT * FROM data LIMIT {} OFFSET {};".format(goods_on_one_page, offset))
+        "SELECT * FROM data LIMIT {} OFFSET {};".format(
+            goods_on_one_page, offset
+            ))
     goods = []
     queries = cursor.fetchall()
     for query in queries:

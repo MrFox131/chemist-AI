@@ -14,7 +14,7 @@ def get_recs_from_db(busk_items_ids: list, n_of_items: list) -> list:
             predictions = predict(goods_names)
         except KeyError:
             predictions = []
-        recs = [i[0] for i in predictions[:n_of_goods_we_recommend]]  # !!! HERE WE MUST ACTUALLY GET RECS
+        recs = [i[0] for i in predictions[:n_of_goods_we_recommend]]
         if len(recs) < 5:  # there are few no recs
             # HERE WE MUST RETURN MOST POPULAR
             recs = db.get_n_most_popular(n_of_goods_we_recommend)
