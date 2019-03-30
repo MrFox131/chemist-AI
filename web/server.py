@@ -69,7 +69,7 @@ def cart():
         cookie = urllib.parse.unquote(cookie)
         cookie = json.loads(cookie)
     for (pk, n) in cookie:
-        cart_ids.append(int(pk))
+        cart_ids.append(pk)
         ns.append(n)
     r_names, r_prices, r_categories, r_ids = [[] for i in range(4)]
     recommendations = rec.get_recs_from_db(cart_ids, ns)
@@ -85,6 +85,7 @@ def cart():
         names.append(g.name)
         prices.append(g.price)
         ids.append(g.pk)
+        categories.append('')
     info = zip(names, prices, categories, ids)
     return flask.render_template(
         'cart.html', info=info, rec_info=rec_info
