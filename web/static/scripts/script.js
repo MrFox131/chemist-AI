@@ -85,7 +85,7 @@ function onResizeWindow(){
 	$(".jsCenterForRecomend").attr("style", $(".jsCenterForRecomend").attr("style") + "margin-left: calc(50vw - " + ($(".jsCenterForRecomend").width() / 2) + "px);");
 }
 
-$(".add_to_cart").on("click", function(){
+$(document).on("click", ".card > .add_to_cart", function(){
 	if($(this).hasClass("selected")){
 		$(this).removeClass("selected");
 		deleteFromCart($(this).attr("itemID"));
@@ -128,6 +128,7 @@ function addToCart(id){
 	}
 
 	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1});
+	console.log("OK");
 }
 function removeFromCart(id){
 	items_in_cart = JSON.parse($.cookie('cart'));
