@@ -78,6 +78,9 @@ body{
     display: inline-block;
     margin: 0 2.5px 0 0;
 }
+.icon--search:before{
+    background-position: -74em -74em;
+}
 .icon--geo,
 .icon--geo-grey,
 .icon--phone,
@@ -528,6 +531,57 @@ body{
     display: block;
 }
 .receipt > .order_btn:hover{
+    color: #313030;
+    background-color: #d9ad00;
+    border-color: #cca300;
+}
+.search{
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 2px solid #fc0;
+    padding-left: 20px;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    height: 46px;
+    width: 70vw;
+    margin: 80px 15vw -50px 15vw;
+    border-radius: 100px;
+}
+.search > #search_input{
+    height: 100%;
+    border: none;
+    width: calc(100% - 120px);
+    outline: none;
+    font-size: 18px;
+    margin-left: 12px;
+    color: #555;
+}
+.search > .search_btn{
+    border-radius: 48px;
+    text-align: center;
+    user-select: none;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    font-weight: 700;
+    margin: 2px;
+    font-size: 16px;
+    height: 38px;
+    padding: 0 22px;
+    border-color: #fc0;
+    background-color: #fc0;
+    color: #4a4a4a;
+    cursor: pointer;
+    display: block;
+    line-height: 36px;
+}
+.search > .search_btn:hover{
     color: #313030;
     background-color: #d9ad00;
     border-color: #cca300;
