@@ -74,13 +74,13 @@
 				reloadReceipt();
 			});
 
-			$(".recommendations > .horizontal_scroll > .card > .add_to_cart").on("click", function(){
+			$(".recommendations > .horizontal_scroll").on("click", ".card > .add_to_cart", function(){
 				let prod_image = $(this).parent().children(".product_image").attr("style");
 				let prod_name = $(this).parent().children(".product_name").html();
 				let prod_description = $(this).parent().children(".product_description").html();
 				let prod_price = $(this).parent().children(".product_price").html();
 				let prod_id = $(this).parent().children(".add_to_cart").attr("itemID");
-				if(!$(this).hasClass("selected")){
+				if($(this).hasClass("selected")){
 					$(".items_in_cart > .card > .product_count[itemID='" + prod_id + "']").parent().remove();
 				}
 				else{
@@ -98,7 +98,7 @@
 			});
 
 			$(".items_in_cart").on("click", ".card > .product_count > .remove_btn", function(){
-				let prod_id = parseInt($(this).parent().attr("itemID"));
+				let prod_id = $(this).parent().attr("itemID");
 				let prod_amount = parseInt($(this).parent().children(".product_amount").html());
 				if(prod_amount > 0){
 					prod_amount = getAmountInCart(prod_id);
@@ -112,7 +112,7 @@
 			});
 
 			$(".items_in_cart").on("click", ".card > .product_count > .add_btn", function(){
-				let prod_id = parseInt($(this).parent().attr("itemID"));
+				let prod_id = $(this).parent().attr("itemID");
 				let prod_amount = parseInt($(this).parent().children(".product_amount").html());
 				if(prod_amount > 0){
 					prod_amount = getAmountInCart(prod_id);
