@@ -1,9 +1,41 @@
 # -*- coding: utf8 -*-
 import gensim
-TRAINING = False
-
-
-def get_sentences():
+import sqlite3
+import os
+# Get all datasets
+def get_all_generics(path_to_db = './data/databases/generics.db', table_name = 'generics'):
+    bot = sqlite3.connect(path_to_db) # Получаем все generic из базы sqlite
+    bot_cur = bot.cursor()
+    bot_cur.execute('SELECT * FROM '+ table_name)
+    g = bot_cur.fetchall()
+    generics_list_vocab=[]
+    for k in g:
+        #ID = k[0]; # ID
+        GENERIC = k[0]# generic
+        if GENERIC == '~':
+            pass
+        elif GENERIC is None:
+            pass
+        else:
+            generics_list_vocab.append([GENERIC])
+    return generics_list_vocab
+def get_dataset_3(path_to_db = "./data/databases/train_dataset3.db", table_name = 'pairs'):
+    bot = sqlite3.connect(path_to_db) # Получаем чеки разбитые по парам
+    bot_cur = bot.cursor()
+    bot_cur.execute('SELECT * FROM ' + table_name)
+    g = bot_cur.fetchall()
+    pairs=[]
+    for k in g:
+        pairs.append(list(k))
+    return pairs
+def get_val_all_unique_generics(path_to_db = './data/databases/generics.db', table_name = 'generics'):
+    bot = sqlite3.connect(path_to_db) # Получаем кол-во уникальных generic
+    bot_cur = bot.cursor()
+    bot_cur.execute("select distinct count(generic) from "+table_name)
+    g = bot_cur.fetchall()
+    g = g[0][0]
+    return g
+def get_dataset_1():
     sentences = [
         ['Валокордин', 'Метформин', 'Мяты перечной масло + фенобарбитал + этилбромизовалерианат', 'Троксерутин',
          'Фозиноприл', 'Метопролол', 'Индапамид', 'Тиоктовая кислота', 'Кетопрофен', 'Карбамазепин',
@@ -1627,24 +1659,62 @@ def get_sentences():
         ['Энтекавир', 'Атомоксетин', 'Бессмертника песчаного цветки сумма флавоноидов',
          'Бессмертника песчаного цветки сумма флавоноидов'], ['Фабомотизол', 'Каптоприл', 'Телмисартан']]
     return sentences
-
-
-sentences = get_sentences()
-longest = len(sentences)
-
-if TRAINING:
-    model = gensim.models.Word2Vec(sentences, size=50, window=100, min_count=1, workers=4, iter=20)
-    model.train(sentences, total_examples=len(sentences), epochs=100)
+def get_dataset_2(path_to_db = "./data/databases/train_dataset2.db", table_name = 'cheques_upd'):
+    bot = sqlite3.connect(path_to_db) # Получаем 15000000 чеков
+    bot_cur = bot.cursor()
+    bot_cur.execute('SELECT * FROM ' + table_name)
+    g = bot_cur.fetchall()
+    one_billion_generics=[]
+    for k in g:
+        #ID = k[0]; # ID
+        GENERIC = k[1].split(',')# generic
+        one_billion_generics.append(GENERIC)
+    return one_billion_generics
+test_data = list(get_all_generics())
+# Neural network unit # TODO Single Stream Error? Необходимо исправить!
+# def make_nn_model(sentences, size=50, window=100, min_count=1, workers=4, iter=20, sample=1e-3, train_model_on_vocab = True, save_model=True, path_to_save_model="./models/vocabulary.model"):
+#     model = gensim.models.Word2Vec(sentences, size, window, min_count, workers, iter, sample)
+#     vocab = list(model.wv.vocab.keys())
+#     if train_model_on_vocab:
+#         model.train(vocab, total_examples=len(vocab), epochs=10)
+#     else:
+#         pass
+#     if save_model:
+#         model.save(path_to_save_model)
+#         return model
+#     else:
+#         return model
+def train_nn_model(model, data=get_dataset_1(), epochs=10, examples_data=1801, examples_vocab=1801, save_model=True, path_to_save_model="./models/trained.model"):
+    if model is None: model=gensim.models.Word2Vec.load('./models/vocabulary.model')
+    else: model = model
+    model.train(data, total_examples=examples_data, epochs=epochs)
     vocab = list(model.wv.vocab.keys())
-    model.train(vocab, total_examples=len(vocab), epochs=100)
-    model.train(sentences, total_examples=len(sentences), epochs=100)
-    model.train(vocab, total_examples=len(vocab), epochs=50)
-    model.save("product2vec.model")
-else:
-    model = gensim.models.Word2Vec.load("nn/product2vec.model")
+    model.train(vocab, total_examples=examples_vocab, epochs=epochs)
+    model.train(data, total_examples=examples_data, epochs=epochs)
+    vocab = list(model.wv.vocab.keys())
+    model.train(vocab, total_examples=examples_vocab, epochs=epochs)
+    if save_model:
+        model.save(path_to_save_model)
+        return model
+    else:
+        return model
+def load_nn_model(path='./models/trained.model'):
+    if os.path.isfile(path):
+        import gensim
+        model = gensim.models.Word2Vec.load(path)
+        return model
+    else:
+        print('First make and train w2v model!')
+        return False
+
+# For tests
+def predict(item_names, model):
+    try:
+        return model.wv.most_similar(item_names)
+    except KeyError as ex: # TODO Он не должен так обрабатывать исключения!
+        pass
+        return "[('shit', 0.5689663887023926), ('shit', 0.45401865243911743), ('shit', 0.45105013251304626), ('shit', 0.44803985953330994), ('shit', 0.4457313120365143), ('shit', 0.44273316860198975), ('shit', 0.41816481947898865), ('shit', 0.4150373339653015), ('Фосфолипиды', 0.40667277574539185), ('Душицы обыкновенной травы масло+Мяты перечной листьев масло+Фенобарбитал+Этилбромизовалерианат', 0.40091028809547424)]"
 
 
-def predict(item_names):
-    '''return recommendations for user with 
-    iten_names in cart'''
-    return model.wv.most_similar(item_names)
+if __name__ == '__main__':
+    pass
