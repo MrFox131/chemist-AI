@@ -13,6 +13,20 @@ app = flask.Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 
+@app.route('/find_items/<string:request>')
+def find_items(request):
+    names, prices, categories, ids = [[] for i in range(4)]
+    items = db.find_items(request)
+    for g in items:
+        names.append(g.name)
+        prices.append(g.price)
+        ids.append(g.pk)
+        categories.append('')
+    return flask.jsonify(
+        list(zip(names, prices, categories, ids)),
+    )
+
+
 @app.route('/get_goods/<int:n_page>')
 def get_goods(n_page):
     names, prices, categories, ids = [[] for i in range(4)]

@@ -32,7 +32,7 @@
 			<a class="menu__item menu__item--cart jsFromRight" href="cart"><div class="cart_button"><div class="icon icon--cart"></div><p class="cart_button__text">Корзина пуста</p></div></a>
 			<div id="menu_dragger"></div>
 		</div>
-		<div class="search"><div class="icon icon--search"></div><input type="text" id="search_input" placeholder="Поиск"><div class="search_btn">Найти</div></div>
+		<div class="search"><div class="icon icon--search"></div><input type="text" id="search_input" placeholder="Поиск"><div class="search_btn" onclick="search();">Найти</div></div>
 		<h1 class="jsFromLeft">Каталог</h1>
 		<div class="content">
 			{% for name, price, category, id in info %}
@@ -53,7 +53,6 @@
 				$.ajax({
 					url: '/get_goods/' + page,
 					success: function(data){
-					console.log(data);
 						for(let i = 0; i < data.length; i++){
 							$(".content").html($(".content").html() + `
 							<div class="card">
@@ -67,8 +66,32 @@
 					}
 				});
 			}
-			//console.log(($(document).outerHeight() - ($(window).height() + $(window).scrollTop())));
 		});
+
+		$("#search_input").on("keyup", function(evt){
+			if (evt.keyCode === 13) {
+				search();
+			}
+		})
+		
+		function search(){
+			$.ajax({
+					url: '/find_items/' + $("#search_input").val(),
+					success: function(data){
+						$(".content").html("");
+						for(let i = 0; i < data.length; i++){
+							$(".content").html($(".content").html() + `
+							<div class="card">
+								<div class="product_image" style="background-image: url('static/images/products/` + data[i][3] + `.JPG');"></div>
+								<div class="product_name">` + data[i][0] + `</div>
+								<div class="product_price">` + data[i][1] + `</div>
+								<div class="add_to_cart" itemID="` + data[i][3] + `"></div>
+							</div>
+							`);
+						}
+					}
+				});
+		}
 		</script>
 	</body>
 </html>
