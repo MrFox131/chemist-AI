@@ -35,8 +35,8 @@ window.onscroll = function() {
 	var scrolled = window.pageYOffset || document.documentElement.scrollTop;
 	if($(window).width() >= 800){
 		var margin = 75 - scrolled;
-  	if(margin < 0) margin = 0;
-  	$(".menu").attr("style", "top: " + margin + "px");
+  		if(margin < 0) margin = 0;
+  		$(".menu").attr("style", "top: " + margin + "px");
 	}
 }
 
@@ -64,6 +64,15 @@ function onResizeWindow(){
 	if($(".jsGridWidthPlus").length){
 		if($(".content > .card:first").length){
 			$(".jsGridWidthPlus").attr("style", $(".jsGridWidthPlus").attr("style") + "width: calc(100vw - (" + (($(".content > .card:first").position().left * 2) - 15) + "px));");
+		}
+	}
+
+	if($(window).width() >= 800){
+		var scrolled = window.pageYOffset || document.documentElement.scrollTop;
+		if($(window).width() >= 800){
+			var margin = 75 - scrolled;
+			  if(margin < 0) margin = 0;
+			  $(".menu").attr("style", "top: " + margin + "px");
 		}
 	}
 
