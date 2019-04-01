@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 prd.db
+urls.db
 
 # C extensions
 *.so
