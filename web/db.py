@@ -38,26 +38,39 @@ def LD(s,t):
 
 def find_items(request):
     cursor = conn.cursor()
+    fixed_request = str(request)[0].upper() + str(request)[1:len(str(request))].lower()
 
-    query = "SELECT * FROM 'data' WHERE Наименование LIKE '%" + str(request)[0].upper() + str(request)[1:len(
-        str(request))].lower() + "%' LIMIT 20;"
+    query = "SELECT * FROM 'data' WHERE Наименование LIKE '%" + fixed_request + "%' LIMIT 20;"
+
     queryResult = cursor.execute(query)
-    resultsAmount = len(list(queryResult))
-    allResults = []
+    data = queryResult.fetchall()
 
-    if resultsAmount == 0:
+    all_results = []
+    all_results += data
+
+    if len(all_results) == 0:
         for i in range(min(10, len(request))):
-            query = "SELECT * FROM 'data' WHERE Наименование LIKE '%" + str(request[0:i]) + "%" + str(request[(i + 1):len(request)]) + "%' LIMIT 20;"
+            query = "SELECT * FROM 'data' WHERE Наименование LIKE '%" + str(fixed_request[0:i]) + "%" + str(fixed_request[(i + 1):len(fixed_request)]) + "%' LIMIT 20;"
             queryResult = cursor.execute(query)
             data = queryResult.fetchall()
-            allResults += data
+            all_results += data
 
     goods = []
-    for query in allResults:
+    all_results_with_LD = []
+
+    print(len(all_results))
+
+    for query in all_results:
         g = Good(query)
-        print(LD(' '.join(g.name.split()[:1]), ' '.join(request.split()[:1])))
-        if LD(' '.join(g.name.split()[:1]), ' '.join(request.split()[:1])) < 5:
-            goods.append(g)
+        print(str(' '.join(g.name.split()[:3])) + " (" + str(LD(' '.join(g.name.split()[:3]), ' '.join(fixed_request.split()[:3]))) + ") " + str(' '.join(fixed_request.split()[:3])))
+        all_results_with_LD.append((query, LD(' '.join(g.name.split()[:3]), ' '.join(fixed_request.split()[:3]))))
+
+    all_results_with_LD = sorted(all_results_with_LD, key=lambda x: x[1])
+
+    for query in all_results_with_LD[:20]:
+        print(query[1])
+        g = Good(query[0])
+        goods.append(g)
     return goods
 
 

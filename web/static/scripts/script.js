@@ -136,7 +136,7 @@ function addToCart(id){
 		items_in_cart.push([id, 1]);
 	}
 
-	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1});
+	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1, path: '/'});
 	console.log("OK");
 }
 function removeFromCart(id){
@@ -151,7 +151,7 @@ function removeFromCart(id){
 		}
 	}
 
-	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1});
+	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1, path: '/'});
 }
 function deleteFromCart(id){
 	items_in_cart = JSON.parse($.cookie('cart'));
@@ -162,7 +162,7 @@ function deleteFromCart(id){
 		}
 	}
 
-	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1});
+	$.cookie('cart', JSON.stringify(items_in_cart), {expires: 1, path: '/'});
 }
 
 function getAmountInCart(id){

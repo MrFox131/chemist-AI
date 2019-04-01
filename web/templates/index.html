@@ -6,6 +6,7 @@
 		<link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
 		<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
 		<link rel="stylesheet" href="static/style/style.css">
+		<link rel="stylesheet" href="static/fonts/bloggersans.css">
 		<!-- <script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script> -->
 		<script src="static/scripts/jquery-3.3.1.min.js"></script>
 		<script src="static/scripts/jquery.cookie.js"></script>
@@ -75,22 +76,7 @@
 		})
 		
 		function search(){
-			$.ajax({
-					url: '/find_items/' + $("#search_input").val(),
-					success: function(data){
-						$(".content").html("");
-						for(let i = 0; i < data.length; i++){
-							$(".content").html($(".content").html() + `
-							<div class="card">
-								<div class="product_image" style="background-image: url('static/images/products/` + data[i][3] + `.JPG');"></div>
-								<div class="product_name">` + data[i][0] + `</div>
-								<div class="product_price">` + data[i][1] + `</div>
-								<div class="add_to_cart" itemID="` + data[i][3] + `"></div>
-							</div>
-							`);
-						}
-					}
-				});
+			window.location.href = "../search/" + $("#search_input").val();
 		}
 		</script>
 	</body>
