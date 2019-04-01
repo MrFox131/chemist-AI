@@ -5,23 +5,27 @@ import random
 goods_on_one_page = 20
 conn = sqlite3.connect("web/prd.db", check_same_thread=False)
 conn_images = sqlite3.connect("web/urls.db", check_same_thread=False)
+conn_clusters = sqlite3.connect("web/cluster.db", check_same_thread=False)
 cursor = conn.cursor()
 cursor.execute("SELECT count(*) FROM data;")
 n_of_goods = cursor.fetchone()[0]
 
+
 class Good(object):
 
     def __init__(self, query):
-        print(query)
         self.image = 'static/images/products/default.png'
         cursor_images = conn_images.cursor()
         cursor_images.execute("SELECT url FROM data WHERE product_id = '" + str(query[0]) + "';")
         image = cursor_images.fetchone()
+        self.good_code = query[5]
+        self.generic = query[-1]
 
         if image:
             self.image = image[0]
 
         self.pk = query[0]
+
         self.mnn = query[11]
         name = query[1].split(" ")[:3]
         name = query[1].split(" капли")[0]
@@ -51,6 +55,7 @@ class Good(object):
         name = name.split(" ")[:3]
         self.name = ' '.join(name)
         self.price = random.randint(317, 2000)
+
 
 def LD(s,t):
     s = ' ' + s
@@ -93,17 +98,13 @@ def find_items(request):
     goods = []
     all_results_with_LD = []
 
-    print(len(all_results))
-
     for query in all_results:
         g = Good(query)
-        print(str(' '.join(g.name.split()[:3])) + " (" + str(LD(' '.join(g.name.split()[:3]), ' '.join(fixed_request.split()[:3]))) + ") " + str(' '.join(fixed_request.split()[:3])))
         all_results_with_LD.append((query, LD(' '.join(g.name.split()[:3]), ' '.join(fixed_request.split()[:3]))))
 
     all_results_with_LD = sorted(all_results_with_LD, key=lambda x: x[1])
 
     for query in all_results_with_LD[:20]:
-        print(query[1])
         g = Good(query[0])
         goods.append(g)
     return goods
@@ -147,3 +148,13 @@ def get_n_most_popular(n):
     for query in queryies:
         goods.append(Good(query))
     return goods
+
+
+def get_generics_clusters(generics) -> list:
+    cluster_cursor = conn_clusters.cursor()
+    clusters = []
+    sql = "SELECT cluster FROM 'generic_cluster' WHERE generic='{}'"
+    for generic in generics:
+        cluster_cursor.execute(sql.format(generic))
+        clusters.append(cluster_cursor.fetchone())
+    return [c[0] for c in clusters if c]
