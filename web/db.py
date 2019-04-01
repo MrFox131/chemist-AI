@@ -4,20 +4,21 @@ import random
 
 goods_on_one_page = 20
 conn = sqlite3.connect("web/prd.db", check_same_thread=False)
+conn_images = sqlite3.connect("web/urls.db", check_same_thread=False)
 cursor = conn.cursor()
 cursor.execute("SELECT count(*) FROM data;")
 n_of_goods = cursor.fetchone()[0]
 
 class Good(object):
-    conn_images = sqlite3.connect("web/urls.db", check_same_thread=False)
-    cursor_images = conn_images.cursor()
 
     def __init__(self, query):
+        print(query)
         self.image = 'static/images/products/default.png'
-        self.cursor_images.execute("SELECT url FROM data WHERE product_id = '" + str(query[0]) + "';")
-        image = self.cursor_images.fetchone()
+        cursor_images = conn_images.cursor()
+        cursor_images.execute("SELECT url FROM data WHERE product_id = '" + str(query[0]) + "';")
+        image = cursor_images.fetchone()
+
         if image:
-            print(image[0])
             self.image = image[0]
 
         self.pk = query[0]
