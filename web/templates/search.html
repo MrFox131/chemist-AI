@@ -41,9 +41,9 @@
 					<div class="product_name">Ничего не найденно</div>
 				</div>
 			{% else %}
-				{% for name, price, category, id in info %}
+				{% for name, price, category, image, id in info %}
 				<div class="card">
-					<div class="product_image" style="background-image: url('../static/images/products/{{ id }}.JPG');"></div>
+					<div class="product_image" style="background-image: url('{{ image }}');"></div>
 					<div class="product_name">{{ name }}</div>
 					<div class="product_price">{{ price }}</div>
 					<div class="add_to_cart" itemID="{{ id }}"></div>
