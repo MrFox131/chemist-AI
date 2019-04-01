@@ -66,14 +66,15 @@ def get_recs():
 
 @app.route('/')
 def index():
-    names, prices, categories, ids = [[] for i in range(4)]
+    names, prices, categories, image, ids = [[] for i in range(5)]
     goods = db.get_page_goods(1)
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
         ids.append(g.pk)
+        image.append(g.image)
         categories.append('')
-    info = zip(names, prices, categories, ids)
+    info = zip(names, prices, categories, image, ids)
     return flask.render_template(
         'index.html', info=info
     )
