@@ -8,9 +8,18 @@ cursor = conn.cursor()
 cursor.execute("SELECT count(*) FROM data;")
 n_of_goods = cursor.fetchone()[0]
 
-
 class Good(object):
+    conn_images = sqlite3.connect("web/urls.db", check_same_thread=False)
+    cursor_images = conn_images.cursor()
+
     def __init__(self, query):
+        self.image = 'static/images/products/default.png'
+        self.cursor_images.execute("SELECT url FROM data WHERE product_id = '" + str(query[0]) + "';")
+        image = self.cursor_images.fetchone()
+        if image:
+            print(image[0])
+            self.image = image[0]
+
         self.pk = query[0]
         self.mnn = query[11]
         name = query[1].split(" ")[:3]
@@ -41,7 +50,6 @@ class Good(object):
         name = name.split(" ")[:3]
         self.name = ' '.join(name)
         self.price = random.randint(317, 2000)
-
 
 def LD(s,t):
     s = ' ' + s

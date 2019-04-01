@@ -36,9 +36,9 @@
 		<div class="search"><div class="icon icon--search"></div><input type="text" id="search_input" placeholder="Поиск"><div class="search_btn" onclick="search();">Найти</div></div>
 		<h1 class="jsFromLeft">Каталог</h1>
 		<div class="content">
-			{% for name, price, category, id in info %}
+			{% for name, price, category, image, id in info %}
 			<div class="card">
-				<div class="product_image" style="background-image: url('static/images/products/{{ id }}.JPG');"></div>
+				<div class="product_image" style="background-image: url('{{ image }}');"></div>
 				<div class="product_name">{{ name }}</div>
 				<div class="product_price">{{ price }}</div>
 				<div class="add_to_cart" itemID="{{ id }}"></div>
