@@ -29,15 +29,16 @@ app.config['JSON_AS_ASCII'] = False
 
 @app.route('/get_goods/<int:n_page>')
 def get_goods(n_page):
-    names, prices, categories, ids = [[] for i in range(4)]
+    names, prices, categories, image, ids = [[] for i in range(5)]
     goods = db.get_page_goods(n_page)
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
         ids.append(g.pk)
+        image.append(g.image)
         categories.append('')
     return flask.jsonify(
-        list(zip(names, prices, categories, ids)),
+        list(zip(names, prices, categories, image, ids)),
     )
 
 
@@ -113,17 +114,18 @@ def cart():
 
 @app.route('/search/<string:request>')
 def search(request):
-    names, prices, categories, ids = [[] for i in range(4)]
+    names, prices, categories, image, ids = [[] for i in range(5)]
     items = db.find_items(request)
     isEmpty = False
     for g in items:
         names.append(g.name)
         prices.append(g.price)
         ids.append(g.pk)
+        image.append(g.image)
         categories.append('')
     if len(items) == 0:
         isEmpty = True
-    info = zip(names, prices, categories, ids)
+    info = zip(names, prices, categories, image, ids)
     return flask.render_template(
         'search.html', info=info, request=request, isEmpty=isEmpty
     )
