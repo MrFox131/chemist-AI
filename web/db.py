@@ -54,6 +54,7 @@ class Good(object):
         self.name = ' '.join(name)
         self.price = random.randint(317, 2000)
 
+
 def LD(s,t):
     s = ' ' + s
     t = ' ' + t

@@ -20,8 +20,8 @@ def get_recs_from_db(busk_items_ids: list, n_of_items: list) -> list:
                 []
             ) + [generics[i]]
     generics_gb_clusters = list(cluster_generics.values())
-    print(generics_gb_clusters)
-    # Надо передать массив массивов дженериков, сгруппированных по кластерам
+    print(cluster_generics)
+    # Надо передать словарь номер кластеров: массивов дженериков, сгруппированных по кластерам
 
 
     # WE MUST DELETE THE FOLLOWING AND RECOMMEND ACCORDING TO CLUSTERS
