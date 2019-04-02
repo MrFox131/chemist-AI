@@ -155,5 +155,4 @@ def get_generics_clusters(generics) -> list:
     for generic in generics:
         cluster_cursor.execute(sql.format(generic))
         clusters.append(cluster_cursor.fetchone())
-    return [c[0] for c in clusters if c]  # we don't return
-    #  generic cluster if that's none
+    return [c[0] for c in clusters if c]
