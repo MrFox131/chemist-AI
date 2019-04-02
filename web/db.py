@@ -3,11 +3,11 @@ import sqlite3
 import random
 
 goods_on_one_page = 20
-conn = sqlite3.connect("web/prd.db", check_same_thread=False)
+conn = sqlite3.connect("web/products.db", check_same_thread=False)
 conn_images = sqlite3.connect("web/urls.db", check_same_thread=False)
 conn_clusters = sqlite3.connect("web/cluster.db", check_same_thread=False)
 cursor = conn.cursor()
-cursor.execute("SELECT count(*) FROM data;")
+cursor.execute("SELECT count(*) FROM clean_goods;")
 n_of_goods = cursor.fetchone()[0]
 
 
@@ -77,20 +77,20 @@ def find_items(request):
     cursor = conn.cursor()
     fixed_request = str(request)[0].upper() + str(request)[1:len(str(request))].lower()
 
-    query = "SELECT * FROM 'data' WHERE Наименование LIKE '%" + fixed_request + "%' LIMIT 20;"
+    query = "SELECT * FROM 'clean_goods' WHERE Наименование LIKE '%" + fixed_request + "%' LIMIT 20;"
 
     queryResult = cursor.execute(query)
-    data = queryResult.fetchall()
+    clean_goods = queryResult.fetchall()
 
     all_results = []
-    all_results += data
+    all_results += clean_goods
 
     if len(all_results) == 0:
         for i in range(min(10, len(request))):
-            query = "SELECT * FROM 'data' WHERE Наименование LIKE '%" + str(fixed_request[0:i]) + "%" + str(fixed_request[(i + 1):len(fixed_request)]) + "%' LIMIT 20;"
+            query = "SELECT * FROM 'clean_goods' WHERE Наименование LIKE '%" + str(fixed_request[0:i]) + "%" + str(fixed_request[(i + 1):len(fixed_request)]) + "%' LIMIT 20;"
             queryResult = cursor.execute(query)
-            data = queryResult.fetchall()
-            all_results += data
+            clean_goods = queryResult.fetchall()
+            all_results += clean_goods
 
     goods = []
     all_results_with_LD = []
@@ -114,7 +114,7 @@ def get_page_goods(n_page):
     n_page -= 1
     offset = (n_page + 1) * goods_on_one_page
     cursor.execute(
-        "SELECT * FROM data LIMIT {} OFFSET {};".format(
+        "SELECT * FROM clean_goods LIMIT {} OFFSET {};".format(
             goods_on_one_page, offset
         ))
     goods = []
@@ -129,7 +129,7 @@ def get_goods_by_ids(ids_list: list) -> list:
     cursor = conn.cursor()
     goods = []
     for i in ids_list:
-        sql = "SELECT * FROM data WHERE id='{}';".format(i)
+        sql = "SELECT * FROM clean_goods WHERE id='{}';".format(i)
         cursor.execute(sql)
         query = cursor.fetchone()
         g = Good(query)
@@ -140,7 +140,7 @@ def get_goods_by_ids(ids_list: list) -> list:
 def get_n_most_popular(n):
     cursor = conn.cursor()
     goods = []
-    sql = "SELECT * FROM data ORDER BY RANDOM() LIMIT {};".format(n)
+    sql = "SELECT * FROM clean_goods ORDER BY RANDOM() LIMIT {};".format(n)
     cursor.execute(sql)
     queryies = cursor.fetchall()
     for query in queryies:
