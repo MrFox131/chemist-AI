@@ -5,9 +5,11 @@ import random
 goods_on_one_page = 20
 conn = sqlite3.connect("web/prd.db", check_same_thread=False)
 conn_images = sqlite3.connect("web/urls.db", check_same_thread=False)
+conn_clusters = sqlite3.connect("web/cluster.db", check_same_thread=False)
 cursor = conn.cursor()
 cursor.execute("SELECT count(*) FROM data;")
 n_of_goods = cursor.fetchone()[0]
+
 
 class Good(object):
 
@@ -20,6 +22,7 @@ class Good(object):
         if image:
             self.image = image[0]
 
+        self.generic = query[-1]
         self.pk = query[0]
         self.mnn = query[11]
         name = query[1].split(" ")[:3]
@@ -155,4 +158,4 @@ def get_generics_clusters(generics) -> list:
     for generic in generics:
         cluster_cursor.execute(sql.format(generic))
         clusters.append(cluster_cursor.fetchone())
-    return [c[0] for c in clusters if c]
+    return [c[0] if c else c for c in clusters]  # WE DON'T RETURN CLUSTER IF THERE IS NO
