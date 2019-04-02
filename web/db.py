@@ -95,17 +95,14 @@ def find_items(request):
     goods = []
     all_results_with_LD = []
 
-    print(len(all_results))
 
     for query in all_results:
         g = Good(query)
-        print(str(' '.join(g.name.split()[:3])) + " (" + str(LD(' '.join(g.name.split()[:3]), ' '.join(fixed_request.split()[:3]))) + ") " + str(' '.join(fixed_request.split()[:3])))
         all_results_with_LD.append((query, LD(' '.join(g.name.split()[:3]), ' '.join(fixed_request.split()[:3]))))
 
     all_results_with_LD = sorted(all_results_with_LD, key=lambda x: x[1])
 
     for query in all_results_with_LD[:20]:
-        print(query[1])
         g = Good(query[0])
         goods.append(g)
     return goods
