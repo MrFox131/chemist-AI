@@ -36,9 +36,9 @@
 		<h1 class="jsFromLeft">Мы рекомендуем вам</h1>
 		<div class="recommendations jsCenterForRecomend">
 			<div class="horizontal_scroll">
-				{% for name, price, category, id in rec_info %}
+				{% for name, price, category, image, id in rec_info %}
 				<div class="card">
-					<div class="product_image" style="background-image: url('static/images/products/{{ id }}.JPG');"></div>
+					<div class="product_image" style="background-image: url('{{ image }}.JPG');"></div>
 					<div class="product_name">{{ name }}</div>
 					<div class="product_price">{{ price }}</div>
 					<div class="add_to_cart" itemID="{{ id }}"></div>
@@ -49,9 +49,9 @@
 		<h1 class="jsFromLeft">Корзина</h1>
 		<div class="content--cart" id="drager">
 			<div class="items_in_cart">
-			{% for name, price, category, id in info %}
+			{% for name, price, category, image, id in info %}
 			<div class="card">
-				<div class="product_image" style="background-image: url('/static/images/products/{{ id }}.JPG');"></div>
+				<div class="product_image" style="background-image: url('{{ image }}.JPG');"></div>
 				<div class="product_name">{{ name }}</div>
 				<div class="product_description">концентрат для приготовления раствора для инфузий 25 мг/мл ампула в упаковке картонной (лотки) 12 мл №5</div>
 				<div class="product_price">{{ price }}</div>

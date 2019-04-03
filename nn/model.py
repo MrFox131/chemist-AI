@@ -1,7 +1,7 @@
 import random
 import sqlite3
 import time
-from db import searching_popular_good_by_generic
+from web.db import searching_popular_good_by_generic
 import gensim
 from scipy.spatial.distance import cosine
 
@@ -9,7 +9,7 @@ start_time = time.time()
 path_to_model = 'nn/models/trained_nn1.model'
 model = gensim.models.Word2Vec.load(path_to_model)
 dict = {80:['Атероклефит', 'Триамцинолон', 'Солифенацин'], 321:['Панкреатин']}
-conn = sqlite3.connect("web/cluster.db")
+conn = sqlite3.connect("web/cluster.db", check_same_thread=False)
 
 
 def get_generics_recommndation(cheque):

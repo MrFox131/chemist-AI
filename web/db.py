@@ -6,6 +6,7 @@ goods_on_one_page = 20
 conn = sqlite3.connect("web/products.db", check_same_thread=False)
 conn_images = sqlite3.connect("web/urls.db", check_same_thread=False)
 conn_clusters = sqlite3.connect("web/cluster.db", check_same_thread=False)
+conn_gg = sqlite3.connect("web/good-generic.db", check_same_thread=False)
 cursor = conn.cursor()
 cursor.execute("SELECT count(*) FROM clean_goods;")
 n_of_goods = cursor.fetchone()[0]
@@ -149,9 +150,22 @@ def get_generics_clusters(generics) -> list:
 
 
 def searching_popular_good_by_generic(gen):
+    cursor_gg = conn_gg.cursor()
     sql = "SELECT good, count(generic) as cnt from good_generic where generic = '"+gen+"' group by good order by cnt DESC limit 5"
-    smth = [i[0] for i in sorted(cursor.execute(sql).fetchall(), key=lambda x:x[1]*random.random()/302366)]
-    return Good(smth[0])
+    smth = [i[0] for i in sorted(cursor_gg.execute(sql).fetchall(), key=lambda x:x[1]*random.random()/302366)]
+    cursor = conn.cursor()
+    sql = "SELECT * FROM 'clean_goods' WHERE [Код товара]={};".format(smth[0])
+    cursor.execute(sql)
+    temp = cursor.fetchone()
+    return Good(temp)
 
 
-print(searching_popular_good_by_generic('Парацетамол'))
+def get_random_recs(n):
+    cursor = conn.cursor()
+    goods = []
+    sql = "SELECT * FROM clean_goods ORDER BY RANDOM() LIMIT {};".format(n)
+    cursor.execute(sql)
+    queryies = cursor.fetchall()
+    for query in queryies:
+        goods.append(Good(query))
+    return goods

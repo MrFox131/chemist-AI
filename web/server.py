@@ -91,22 +91,24 @@ def cart():
     for (pk, n) in cookie:
         cart_ids.append(pk)
         ns.append(n)
-    r_names, r_prices, r_categories, r_ids = [[] for i in range(4)]
+    r_names, r_prices, r_categories, r_image, r_ids = [[] for i in range(5)]
     recommendations = rec.get_recs_from_db(cart_ids, ns)
     for g in recommendations:
         r_names.append(g.name)
         r_prices.append(g.price)
         r_ids.append(g.pk)
+        r_image.append(g.image)
         r_categories.append('')
-    rec_info = zip(r_names, r_prices, r_categories, r_ids)
-    names, prices, categories, ids = [[] for i in range(4)]
+    rec_info = zip(r_names, r_prices, r_categories, r_image, r_ids)
+    names, prices, categories, image, ids = [[] for i in range(5)]
     goods = db.get_goods_by_ids(cart_ids)
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
         ids.append(g.pk)
+        image.append(g.image)
         categories.append('')
-    info = zip(names, prices, categories, ids)
+    info = zip(names, prices, categories, image, ids)
     return flask.render_template(
         'cart.html', info=info, rec_info=rec_info
     )
