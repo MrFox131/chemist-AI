@@ -1,4 +1,5 @@
 # here will be database settings
+# all dbs are here: https://drive.google.com/drive/folders/1cCOzefvsFQZ6fI9r4LVAG8BYJ-VGDU4A
 import sqlite3
 import random
 
