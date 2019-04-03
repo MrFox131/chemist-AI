@@ -26,31 +26,31 @@ class Good(object):
         self.pk = query[0]
         self.mnn = query[11]
         name = query[1].split(" ")[:3]
-        # name = query[1].split(" капли")[0]
-        # name = name.split(" аэр")[0]
-        # name = name.split(" драже")[0]
-        # name = name.split(" сироп")[0]
-        # name = name.split(" г/х")[0]
-        # name = name.split(" фл")[0]
-        # name = name.split(" пор")[0]
-        # name = name.split(" лиоф")[0]
-        # name = name.split(" гель")[0]
-        # name = name.split(" г/хл")[0]
-        # name = name.split(" сусп")[0]
-        # name = name.split(" мазь")[0]
-        # name = name.split(" крем")[0]
-        # name = name.split(" средство")[0]
-        # name = name.split(" спрей")[0]
-        # name = name.split(" норм")[0]
-        # name = name.split(" капс")[0]
-        # name = name.split(" быстрорастворимый")[0]
-        # name = name.split(" конц")[0]
-        # name = name.split(" р-р д/местн")[0]
-        # name = name.split(" р-р д/наружн")[0]
-        # name = name.split(" р-р")[0]
-        # name = name.split(" д/дет")[0]
-        # name = name.split(" таб")[0]
-        # name = name.split(" ")[:3]
+        name = query[1].split(" капли")[0]
+        name = name.split(" аэр")[0]
+        name = name.split(" драже")[0]
+        name = name.split(" сироп")[0]
+        name = name.split(" г/х")[0]
+        name = name.split(" фл")[0]
+        name = name.split(" пор")[0]
+        name = name.split(" лиоф")[0]
+        name = name.split(" гель")[0]
+        name = name.split(" г/хл")[0]
+        name = name.split(" сусп")[0]
+        name = name.split(" мазь")[0]
+        name = name.split(" крем")[0]
+        name = name.split(" средство")[0]
+        name = name.split(" спрей")[0]
+        name = name.split(" норм")[0]
+        name = name.split(" капс")[0]
+        name = name.split(" быстрорастворимый")[0]
+        name = name.split(" конц")[0]
+        name = name.split(" р-р д/местн")[0]
+        name = name.split(" р-р д/наружн")[0]
+        name = name.split(" р-р")[0]
+        name = name.split(" д/дет")[0]
+        name = name.split(" таб")[0]
+        name = name.split(" ")[:3]
         self.name = ' '.join(name)
         self.price = random.randint(317, 2000)
 
@@ -138,17 +138,6 @@ def get_goods_by_ids(ids_list: list) -> list:
     return goods
 
 
-def get_n_most_popular(n):
-    cursor = conn.cursor()
-    goods = []
-    sql = "SELECT * FROM clean_goods ORDER BY RANDOM() LIMIT {};".format(n)
-    cursor.execute(sql)
-    queryies = cursor.fetchall()
-    for query in queryies:
-        goods.append(Good(query))
-    return goods
-
-
 def get_generics_clusters(generics) -> list:
     cluster_cursor = conn_clusters.cursor()
     clusters = []
@@ -157,3 +146,12 @@ def get_generics_clusters(generics) -> list:
         cluster_cursor.execute(sql.format(generic))
         clusters.append(cluster_cursor.fetchone())
     return [int(c[0]) if c else c for c in clusters]  # WE DON'T RETURN CLUSTER IF THERE IS NO
+
+
+def searching_popular_good_by_generic(gen):
+    sql = "SELECT good, count(generic) as cnt from good_generic where generic = '"+gen+"' group by good order by cnt DESC limit 5"
+    smth = [i[0] for i in sorted(cursor.execute(sql).fetchall(), key=lambda x:x[1]*random.random()/302366)]
+    return Good(smth[0])
+
+
+print(searching_popular_good_by_generic('Парацетамол'))

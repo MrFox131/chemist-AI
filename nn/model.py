@@ -1,7 +1,7 @@
 import random
 import sqlite3
 import time
-
+from db import searching_popular_good_by_generic
 import gensim
 from scipy.spatial.distance import cosine
 
@@ -9,13 +9,11 @@ start_time = time.time()
 path_to_model = 'nn/models/trained_nn1.model'
 model = gensim.models.Word2Vec.load(path_to_model)
 dict = {80:['Атероклефит', 'Триамцинолон', 'Солифенацин'], 321:['Панкреатин']}
+conn = sqlite3.connect("web/cluster.db")
 
 
 def get_generics_recommndation(cheque):
-    conn = sqlite3.connect("web/cluster.db")
     cursor = conn.cursor()
-
-    random.seed = time.time()
 
     # словарь кластер -> дженерики => кластер -> векоторы.
     def gen_to_vector(dict):
@@ -27,9 +25,6 @@ def get_generics_recommndation(cheque):
             d[i] = clust_array
             clust_array = []
         return d  # Сделать
-
-    # def Bridge1(num, dict):
-    #     return dict[num] ### Переделать
 
 
     def middleVector(args):
@@ -93,4 +88,10 @@ def get_generics_recommndation(cheque):
         recomendating_gens = [i[0] for i in model.most_similar(list(cheque.items())[0][1][0])[:5]]
     return recomendating_gens
 
-print(get_generics_recommndation(dict))
+
+def get_recs_from_gens(generics):
+    recs = []
+    for g in generics:
+        temp = searching_popular_good_by_generic(g)
+        recs.append(temp)
+    return recs

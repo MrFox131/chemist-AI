@@ -1,5 +1,5 @@
 from . import db
-from nn.model import predict
+from nn.model import get_generics_recommndation, get_recs_from_gens
 
 
 n_of_goods_we_recommend = 5
@@ -20,6 +20,7 @@ def get_recs_from_db(busk_items_ids: list, n_of_items: list) -> list:
                 []
             ) + [generics[i]]
     print(cluster_generics)
+    recs = get_recs_from_gens(get_generics_recommndation(cluster_generics))
+    print(recs)
+    return recs
     # Надо передать словарь номер кластеров: массивов дженериков, сгруппированных по кластерам
-
-
