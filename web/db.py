@@ -53,7 +53,7 @@ class Good(object):
         name = name.split(" таб")[0]
         name = name.split(" ")[:3]
         self.name = ' '.join(name)
-        self.price = random.randint(317, 2000)
+        self.price = random.randint(57, 1031)
     
     def __eq__(self, other):
         return self.pk == other.pk
