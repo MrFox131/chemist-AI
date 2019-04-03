@@ -2,6 +2,7 @@
 # all dbs are here: https://drive.google.com/drive/folders/1cCOzefvsFQZ6fI9r4LVAG8BYJ-VGDU4A
 import sqlite3
 import random
+import re
 
 goods_on_one_page = 20
 conn = sqlite3.connect("web/products.db", check_same_thread=False)
@@ -82,8 +83,10 @@ def LD(s,t):
 def find_items(request):
     cursor = conn.cursor()
     fixed_request = str(request)[0].upper() + str(request)[1:len(str(request))].lower()
+    fixed_request = re.sub(r'[^(0-9)^ ^(a-z)^(а-я)^(А-Я)^\-]', '', fixed_request)
 
     query = "SELECT * FROM 'clean_goods' WHERE Наименование LIKE '%" + fixed_request + "%' LIMIT 20;"
+    
 
     queryResult = cursor.execute(query)
     clean_goods = queryResult.fetchall()
