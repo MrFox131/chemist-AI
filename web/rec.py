@@ -21,6 +21,14 @@ def get_recs_from_db(busk_items_ids: list, n_of_items: list) -> list:
                 []
             ) + [generics[i]]
     recs = get_recs_from_gens(get_generics_recommndation(cluster_generics))
+    for g in goods:
+        if g in recs:
+            a = db.get_random_recs(1)[0]
+            while a in recs + goods:
+                a = db.get_random_recs(1)[0]
+            recs.pop(recs.index(g))
+            recs.append(a)
+    
     return recs
     # Надо передать словарь номер кластеров: массивов дженериков, сгруппированных по кластерам
 

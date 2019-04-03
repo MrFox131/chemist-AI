@@ -54,6 +54,9 @@ class Good(object):
         name = name.split(" ")[:3]
         self.name = ' '.join(name)
         self.price = random.randint(317, 2000)
+    
+    def __eq__(self, other):
+        return self.pk == other.pk
 
 
 def LD(s,t):
