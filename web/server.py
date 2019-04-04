@@ -15,7 +15,7 @@ app.config['JSON_AS_ASCII'] = False
 
 @app.route('/stop')
 def stop():
-    return '<h1>Stop fucking hacking our site</h1><a href="/">Обратно на сайт</a>'
+    return '<h1>Stop hacking our site</h1><a href="/">Обратно на сайт</a>'
 
 
 @app.route('/get_goods/<int:n_page>')
