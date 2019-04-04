@@ -7,55 +7,46 @@ from . import db
 from . import rec
 import urllib
 import json
+import os
 
 app = flask.Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 
+@app.route('/stop')
+def stop():
+    return '<h1>Stop fucking hacking our site</h1><a href="/">Обратно на сайт</a>'
+
+
 @app.route('/get_goods/<int:n_page>')
 def get_goods(n_page):
-    names, prices, categories, ids = [[] for i in range(4)]
-    goods = db.get_page_goods(n_page)
-    for g in goods:
-        names.append(g.name)
-        prices.append(g.price)
-        ids.append(g.pk)
-        categories.append('')
-    return flask.jsonify(
-        list(zip(names, prices, categories, ids)),
-    )
-
-
-@app.route('/get_recs')
-def get_recs():
-    '''return json response with goods we recommend'''
-    names, prices, categories, ids = [[] for i in range(4)]
     if flask.request.is_xhr:
-        ids = flask.request.json['ids']
+        names, prices, categories, image, ids = [[] for i in range(5)]
+        goods = db.get_page_goods(n_page)
+        for g in goods:
+            names.append(g.name)
+            prices.append(g.price)
+            ids.append(g.pk)
+            image.append(g.image)
+            categories.append('')
+        return flask.jsonify(
+            list(zip(names, prices, categories, image, ids)),
+        )
     else:
-        return flask.abort(404)
-    goods = rec.get_recs_by_goods_ids(ids)
-    for g in goods:
-        names.append(g.name)
-        prices.append(g.price)
-        ids.append(g.pk)
-        categories.append('')
-    return flask.jsonify(
-        info=list(zip(names, prices, categories, ids)),
-    )
+        return flask.redirect('/stop')
 
 
 @app.route('/')
 def index():
-    names, prices, categories, ids = [[] for i in range(4)]
+    names, prices, categories, image, ids = [[] for i in range(5)]
     goods = db.get_page_goods(1)
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
         ids.append(g.pk)
+        image.append(g.image)
         categories.append('')
-    info = zip(names, prices, categories, ids)
-    print(categories)
+    info = zip(names, prices, categories, image, ids)
     return flask.render_template(
         'index.html', info=info
     )
@@ -69,23 +60,56 @@ def cart():
         cookie = urllib.parse.unquote(cookie)
         cookie = json.loads(cookie)
     for (pk, n) in cookie:
-        cart_ids.append(int(pk))
+        cart_ids.append(pk)
         ns.append(n)
-    r_names, r_prices, r_categories, r_ids = [[] for i in range(4)]
+    r_names, r_prices, r_categories, r_image, r_ids = [[] for i in range(5)]
     recommendations = rec.get_recs_from_db(cart_ids, ns)
     for g in recommendations:
         r_names.append(g.name)
         r_prices.append(g.price)
         r_ids.append(g.pk)
+        r_image.append(g.image)
         r_categories.append('')
-    rec_info = zip(r_names, r_prices, r_categories, r_ids)
-    names, prices, categories, ids = [[] for i in range(4)]
+    rec_info = zip(r_names, r_prices, r_categories, r_image, r_ids)
+    names, prices, categories, image, ids = [[] for i in range(5)]
     goods = db.get_goods_by_ids(cart_ids)
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
         ids.append(g.pk)
-    info = zip(names, prices, categories, ids)
+        image.append(g.image)
+        categories.append('')
+    info = zip(names, prices, categories, image, ids)
     return flask.render_template(
         'cart.html', info=info, rec_info=rec_info
     )
+
+
+@app.route('/search/<string:request>')
+def search(request):
+    names, prices, categories, image, ids = [[] for i in range(5)]
+    items = db.find_items(request)
+    isEmpty = False
+    for g in items:
+        names.append(g.name)
+        prices.append(g.price)
+        ids.append(g.pk)
+        image.append(g.image)
+        categories.append('')
+    if len(items) == 0:
+        isEmpty = True
+    info = zip(names, prices, categories, image, ids)
+    return flask.render_template(
+        'search.html', info=info, request=request, isEmpty=isEmpty
+    )
+
+
+@app.route('/static/images/products/<string:name>')
+def get_image(name):
+    fullpath = 'web/static/images/products/' + name
+    filepath = 'static/images/products/' + name
+    if os.path.isfile(fullpath):
+        return flask.send_file(filepath)
+    else:
+        default = 'static/images/products/default.png'
+        return flask.send_file(default)

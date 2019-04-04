@@ -6,11 +6,14 @@
 		<link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
 		<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
 		<link rel="stylesheet" href="static/style/style.css">
+		<link rel="stylesheet" href="static/fonts/bloggersans.css">
 		<!-- <script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script> -->
 		<script src="static/scripts/jquery-3.3.1.min.js"></script>
 		<script src="static/scripts/jquery.cookie.js"></script>
+		<script src="static/scripts/snap.js"></script>
 	</head>
 	<body>
+		<div class="icon icon-menu"></div>
 		<div class="top_info">
 			<div class="logo"></div>
 			<div class="geo" style="padding: 0 40px;">
@@ -28,12 +31,14 @@
 			<a class="menu__item" href="#">Наши аптеки</a>
 			<a class="menu__item" href="#">Скидки</a>
 			<a class="menu__item menu__item--cart jsFromRight" href="cart"><div class="cart_button"><div class="icon icon--cart"></div><p class="cart_button__text">Корзина пуста</p></div></a>
+			<div id="menu_dragger"></div>
 		</div>
+		<div class="search"><div class="icon icon--search"></div><input type="text" id="search_input" placeholder="Поиск"><div class="search_btn" onclick="search();">Найти</div></div>
 		<h1 class="jsFromLeft">Каталог</h1>
 		<div class="content">
-			{% for name, price, category, id in info %}
+			{% for name, price, category, image, id in info %}
 			<div class="card">
-				<div class="product_image" style="background-image: url('static/images/products/{{ id }}.JPG');"></div>
+				<div class="product_image" style="background-image: url('{{ image }}');"></div>
 				<div class="product_name">{{ name }}</div>
 				<div class="product_price">{{ price }}</div>
 				<div class="add_to_cart" itemID="{{ id }}"></div>
@@ -43,28 +48,39 @@
 		<script src="static/scripts/script.js"></script>
 		<script>
 		let page = 1;
+		let isPageUpload = true;
 		$(window).on("scroll", function() {
-			if(($(document).outerHeight() - ($(window).height() + $(window).scrollTop())) < 350){
+			if((($(document).outerHeight() - ($(window).height() + $(window).scrollTop())) < 500) && isPageUpload){
+				isPageUpload = false;
 				page++;
 				$.ajax({
 					url: '/get_goods/' + page,
 					success: function(data){
-					console.log(data);
 						for(let i = 0; i < data.length; i++){
-							$(".content").html($(".content").html() + `
+							$(".content").append(`
 							<div class="card">
-								<div class="product_image" style="background-image: url('static/images/products/` + data[i][3] + `.JPG');"></div>
+								<div class="product_image" style="background-image: url('` + data[i][3] + `');"></div>
 								<div class="product_name">` + data[i][0] + `</div>
 								<div class="product_price">` + data[i][1] + `</div>
-								<div class="add_to_cart" itemID="` + data[i][3] + `"></div>
+								<div class="add_to_cart" itemID="` + data[i][4] + `"></div>
 							</div>
 							`);
 						}
+						isPageUpload = true;
 					}
 				});
 			}
-			//console.log(($(document).outerHeight() - ($(window).height() + $(window).scrollTop())));
 		});
+
+		$("#search_input").on("keyup", function(evt){
+			if (evt.keyCode === 13) {
+				search();
+			}
+		})
+		
+		function search(){
+			window.location.href = "../search/" + $("#search_input").val();
+		}
 		</script>
 	</body>
 </html>
