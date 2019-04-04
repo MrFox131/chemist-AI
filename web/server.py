@@ -13,6 +13,11 @@ app = flask.Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 
+@app.route('/stop')
+def stop():
+    return '<h1>Stop fucking hacking our site</h1><a href="/">Обратно на сайт</a>'
+
+
 @app.route('/get_goods/<int:n_page>')
 def get_goods(n_page):
     if flask.request.is_xhr:
@@ -28,7 +33,7 @@ def get_goods(n_page):
             list(zip(names, prices, categories, image, ids)),
         )
     else:
-        return flask.redirect('/')
+        return flask.redirect('/stop')
 
 
 @app.route('/')

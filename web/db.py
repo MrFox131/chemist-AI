@@ -84,6 +84,8 @@ def find_items(request):
     cursor = conn.cursor()
     fixed_request = str(request)[0].upper() + str(request)[1:len(str(request))].lower()
     fixed_request = re.sub(r'[^(0-9)^ ^(a-z)^(а-я)^(А-Я)^\-]', '', fixed_request)
+    if not fixed_request:
+        return []
 
     query = "SELECT * FROM 'clean_goods' WHERE Наименование LIKE '%" + fixed_request + "%' LIMIT 20;"
     
