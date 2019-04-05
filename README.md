@@ -22,5 +22,5 @@
         Цимерман Даниил
         Селин Никита
         Абакаев Дени
-        [Костюков Максим](https://github.com/Gargulia/)
+        [Костюков Максим](https://github.com/Gargulia/ "Gargulia")
         Береговский Даниил
