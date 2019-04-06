@@ -33,7 +33,7 @@
 
 * Наставник:
 
-  Несудимов Антон Евгеньевич
+  [Несудимов Антон Евгеньевич](https://github.com/TOXMEH)
 
 * Команда разработчиков:
 
@@ -49,4 +49,4 @@
 
   [Костюков Максим](https://github.com/Gargulia/)
 
-  [Береговский Даниил](https://github.com/)
+  [Береговский Даниил](https://github.com/Daniil-Beregovskiy)
