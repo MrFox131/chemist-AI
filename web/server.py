@@ -2,12 +2,13 @@
 # pip install -r requirements.txt
 # RUN THIS COMMAND TO RUN SERVER:
 # python main.py and go to http://localhost:5000/
-import flask
-from . import db
-from . import rec
-import urllib
 import json
 import os
+import urllib
+
+import flask
+
+from . import db, rec
 
 app = flask.Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -38,15 +39,16 @@ def get_goods(n_page):
 
 @app.route('/')
 def index():
-    names, prices, categories, image, ids = [[] for i in range(5)]
-    goods = db.get_page_goods(1)
+    names, prices, categories, image, ids = [
+        [] for i in range(5)]  # Инициализация списков
+    goods = db.get_page_goods(1)  # первая страница товаров
     for g in goods:
         names.append(g.name)
         prices.append(g.price)
         ids.append(g.pk)
         image.append(g.image)
         categories.append('')
-    info = zip(names, prices, categories, image, ids)
+    info = zip(names, prices, categories, image, ids)  # склейка в один список
     return flask.render_template(
         'index.html', info=info
     )
@@ -54,7 +56,7 @@ def index():
 
 @app.route('/cart')
 def cart():
-    cart_ids, ns = [], []
+    cart_ids, ns = [], []  # Инициализация списков
     cookie = flask.request.cookies.get('cart', '')
     if cookie:
         cookie = urllib.parse.unquote(cookie)
