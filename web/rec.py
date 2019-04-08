@@ -10,7 +10,7 @@ def get_recs_from_db(busk_items_ids: list, n_of_items: list) -> list:
     goods = db.get_goods_by_ids(busk_items_ids)
     if not goods:
         return db.get_random_recs(n_of_goods_we_recommend)
-    generics = [g.generic for g in goods]
+    generics = [g["generic"] for g in goods]
     generics = list(set(generics))
     clusters = db.get_generics_clusters(generics)
     cluster_generics = {}

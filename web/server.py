@@ -25,10 +25,10 @@ def get_goods(n_page):
         names, prices, categories, image, ids = [[] for i in range(5)]
         goods = db.get_page_goods(n_page)
         for g in goods:
-            names.append(g.name)
-            prices.append(g.price)
-            ids.append(g.pk)
-            image.append(g.image)
+            names.append(g["name"])
+            prices.append(g["price"])
+            ids.append(g["pk"])
+            image.append(g["image"])
             categories.append('')
         return flask.jsonify(
             list(zip(names, prices, categories, image, ids)),
@@ -43,10 +43,10 @@ def index():
         [] for i in range(5)]  # Инициализация списков
     goods = db.get_page_goods(1)  # первая страница товаров
     for g in goods:
-        names.append(g.name)
-        prices.append(g.price)
-        ids.append(g.pk)
-        image.append(g.image)
+        names.append(g["name"])
+        prices.append(g["price"])
+        ids.append(g["pk"])
+        image.append(g["image"])
         categories.append('')
     info = zip(names, prices, categories, image, ids)  # склейка в один список
     return flask.render_template(
@@ -67,19 +67,19 @@ def cart():
     r_names, r_prices, r_categories, r_image, r_ids = [[] for i in range(5)]
     recommendations = rec.get_recs_from_db(cart_ids, ns)
     for g in recommendations:
-        r_names.append(g.name)
-        r_prices.append(g.price)
-        r_ids.append(g.pk)
-        r_image.append(g.image)
+        r_names.append(g["name"])
+        r_prices.append(g["price"])
+        r_ids.append(g["pk"])
+        r_image.append(g["image"])
         r_categories.append('')
     rec_info = zip(r_names, r_prices, r_categories, r_image, r_ids)
     names, prices, categories, image, ids = [[] for i in range(5)]
     goods = db.get_goods_by_ids(cart_ids)
     for g in goods:
-        names.append(g.name)
-        prices.append(g.price)
-        ids.append(g.pk)
-        image.append(g.image)
+        names.append(g["name"])
+        prices.append(g["price"])
+        ids.append(g["pk"])
+        image.append(g["image"])
         categories.append('')
     info = zip(names, prices, categories, image, ids)
     return flask.render_template(
@@ -93,10 +93,10 @@ def search(request):
     items = db.find_items(request)
     isEmpty = False
     for g in items:
-        names.append(g.name)
-        prices.append(g.price)
-        ids.append(g.pk)
-        image.append(g.image)
+        names.append(g["name"])
+        prices.append(g["price"])
+        ids.append(g["pk"])
+        image.append(g["image"])
         categories.append('')
     if len(items) == 0:
         isEmpty = True
