@@ -1,3 +1,13 @@
+# -*- coding: utf8 -*-
+# Имя: model.py
+# Месторасположение файла: ProjectRoot/nn/
+# Автор скрипта: Gargulia
+# Описание скрипта:
+#       Для Gargulia!
+#       Здесь напишешь описание, что делает этот скрипт, и т.п!
+#       Также сделаешь нужные комментарии.
+#       Пример смотреть в functions.py и make_model.py!
+
 import random
 import sqlite3
 import time
